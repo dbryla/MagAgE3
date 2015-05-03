@@ -2,19 +2,20 @@ apply plugin: 'java'
 
 repositories {
     mavenCentral()
+    maven {
+    	url 'https://repository.age.agh.edu.pl/content/repositories/snapshots'
+    }
 }
 
 dependencies {
-    compile 'com.hazelcast:hazelcast-client:3.4.2'
+    compile ('com.hazelcast:hazelcast-client:+') {
+    	exclude group: 'net.sourceforge.findbugs'
+    }
+    compile ('org.age:age3:+') {
+    	exclude group: 'org.age'
+    }
 }
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.3'
-}
-
-task copyToLib(type: Copy) {
-    into "$buildDir/lib"
-    from configurations.runtime
-}
-
-compileJava.dependsOn copyToLib
+} 
