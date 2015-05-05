@@ -14,6 +14,10 @@ dependencies {
     compile ('org.age:age3:+') {
     	exclude group: 'org.age'
     }
+    compile 'org.eclipse.jetty:jetty-ant:+'
+
+
+
 }
 
 task wrapper(type: Wrapper) {
