@@ -3,7 +3,7 @@ apply plugin: 'java'
 repositories {
     mavenCentral()
     maven {
-    	url 'https://repository.age.agh.edu.pl/content/repositories/snapshots'
+    	url 'https://repository.age.agh.edu.pl/content/repositories/releases'
     }
 }
 
@@ -11,12 +11,7 @@ dependencies {
     compile ('com.hazelcast:hazelcast-client:+') {
     	exclude group: 'net.sourceforge.findbugs'
     }
-    compile ('org.age:age3:+') {
-    	exclude group: 'org.age'
-    }
-    compile 'org.eclipse.jetty:jetty-ant:+'
-
-
+    compile 'org.age:age3:+', 'org.eclipse.jetty:jetty-ant:+'
 
 }
 
