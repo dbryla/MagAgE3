@@ -14,8 +14,7 @@ dependencies {
     compile ('org.age:age3:+') {
     	exclude group: 'org.age'
     }
-    compile 'org.eclipse.jetty:jetty-ant:+'
-
+    compile 'org.eclipse.jetty:jetty-ant:+','org.glassfish.jersey.containers:jersey-container-servlet:+'
 
 
 }
