@@ -3,6 +3,7 @@ package org.age.mag;
 import java.util.Collection;
 
 import org.age.mag.hazelcast.ClientIsNotConnectedException;
+import org.age.mag.hazelcast.ClusterService;
 import org.age.mag.hazelcast.Connector;
 
 import com.hazelcast.client.HazelcastClient;
@@ -17,7 +18,12 @@ public class Sample {
         
     	Connector con = Connector.getInstance();
     	con.connect();
-        while(true) {
+    	ClusterService service = new ClusterService();
+    	System.out.println(service.getClientName());
+    	System.out.println(service.getMasterNode());
+    	System.out.println(service.getConnectedMembers());
+    	
+       /* while(true) {
         	boolean isConn = con.isConnected();
         	System.out.println(isConn);
         	if (!isConn) {
@@ -31,7 +37,7 @@ public class Sample {
         	} else {
         		break;
         	}
-        }
+        }*/
     }
 
 }
