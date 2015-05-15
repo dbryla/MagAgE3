@@ -1,10 +1,14 @@
 package org.age.mag.hazelcast;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.HazelcastInstanceNotActiveException;
 
 public final class Connector {
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	private final static Connector instance = new Connector();
 	private HazelcastInstance client;
 	private boolean connected;
@@ -30,8 +34,7 @@ public final class Connector {
 	public boolean isConnected() {
 		if (connected) {
 			try {
-				//TODO: log that this client is connected
-				client.getName();
+				log.info("Client " + client.getName() + " is connected.");
 				return connected;
 			} catch (HazelcastInstanceNotActiveException e) {
 				// Ignore exception when there is no active nodes

@@ -1,5 +1,8 @@
 package org.age.mag.hazelcast.listeners;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.hazelcast.core.EntryEvent;
 import com.hazelcast.core.MapEvent;
 import com.hazelcast.map.listener.EntryAddedListener;
@@ -13,46 +16,47 @@ import com.hazelcast.map.listener.MapEvictedListener;
 @SuppressWarnings("rawtypes")
 public class WorkerStateListener implements MapClearedListener, MapEvictedListener, EntryAddedListener,
 EntryEvictedListener, EntryRemovedListener, EntryMergedListener, EntryUpdatedListener {
-
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	
     @Override
     public void entryUpdated(EntryEvent event) {
-        // TODO Auto-generated method stub
+        log.info(event.toString());
         
     }
 
     @Override
     public void entryMerged(EntryEvent event) {
-        // TODO Auto-generated method stub
+        log.info(event.toString());
         
     }
 
     @Override
     public void entryRemoved(EntryEvent event) {
-        // TODO Auto-generated method stub
+        log.info(event.toString());
         
     }
 
     @Override
     public void entryEvicted(EntryEvent event) {
-        // TODO Auto-generated method stub
+        log.info(event.toString());
         
     }
 
     @Override
     public void entryAdded(EntryEvent event) {
-        // TODO Auto-generated method stub
+        log.info(event.toString());
         
     }
 
     @Override
     public void mapEvicted(MapEvent event) {
-        // TODO Auto-generated method stub
+        log.info(event.toString());
         
     }
 
     @Override
     public void mapCleared(MapEvent event) {
-        // TODO Auto-generated method stub
+		log.info(event.toString());
         
     }
 
