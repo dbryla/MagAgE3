@@ -1,5 +1,6 @@
 package org.age.mag.hazelcast.listeners;
 
+import org.age.mag.hazelcast.ClusterManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,13 +14,14 @@ public class MembershipListenerImpl implements MembershipListener {
 	@Override
 	public void memberAdded(MembershipEvent event) {
 		log.info(event.toString());
+		ClusterManager.addMember(event.getMember());
 
 	}
 
 	@Override
 	public void memberRemoved(MembershipEvent event) {
 		log.info(event.toString());
-
+		ClusterManager.removeMember(event.getMember());
 	}
 
 	@Override

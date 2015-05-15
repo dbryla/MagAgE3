@@ -11,8 +11,7 @@ public class PartitionLostListenerImpl implements PartitionLostListener {
 	
     @Override
     public void partitionLost(PartitionLostEvent event) {
-		log.info(event.toString());
-
+        log.info(event.toString());
     }
 
 }

@@ -1,5 +1,7 @@
 package org.age.mag.hazelcast.listeners;
 
+import org.age.mag.hazelcast.ClusterManager;
+import org.age.services.identity.NodeDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,8 +23,7 @@ public class NodeDescriptorListener implements MapClearedListener,
 
 	@Override
 	public void entryUpdated(EntryEvent event) {
-		log.info(event.toString());
-
+	    log.info(event.toString());
 	}
 
 	@Override
@@ -34,6 +35,7 @@ public class NodeDescriptorListener implements MapClearedListener,
 	@Override
 	public void entryRemoved(EntryEvent event) {
 		log.info(event.toString());
+		ClusterManager.removeNodeDescriptor((NodeDescriptor)event.getValue());
 
 	}
 

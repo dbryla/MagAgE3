@@ -8,18 +8,12 @@ import com.hazelcast.core.MessageListener;
 
 @SuppressWarnings("rawtypes")
 public class MessageListenerImpl implements MessageListener {
-	private final Logger log = LoggerFactory.getLogger(this.getClass());
-
-    private String channelName;
-
-    public MessageListenerImpl(String name) {
-        channelName = name;
-    }
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public void onMessage(Message message) {
-        log.info("channel: " + channelName + " " + message.toString());
-        
+        log.info("channel: " + message.toString() + " " + message.getMessageObject().toString());
+
     }
 
 }

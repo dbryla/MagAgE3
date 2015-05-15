@@ -1,5 +1,7 @@
 package org.age.mag.hazelcast.listeners;
 
+import org.age.mag.hazelcast.ClusterManager;
+import org.age.services.status.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +23,11 @@ EntryEvictedListener, EntryRemovedListener, EntryMergedListener, EntryUpdatedLis
     @Override
     public void entryUpdated(EntryEvent event) {
         log.info(event.toString());
+        Status newStatus = (Status) event.getValue();
+        if (!((Status) event.getOldValue()).errors().equals(newStatus.errors())) {
+            ClusterManager.addNodeStatus((String) event.getKey(), newStatus);
+            log.info("Node status changed to: " + newStatus);
+        }
         
     }
 

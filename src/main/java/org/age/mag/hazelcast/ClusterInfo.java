@@ -1,6 +1,7 @@
 package org.age.mag.hazelcast;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -19,19 +20,27 @@ final class ClusterInfo {
     private HashMap<String, NodeInfo> nodes = new HashMap<String, NodeInfo>();
     private String topologyType;
     @SuppressWarnings("rawtypes")
-    UnmodifiableDirectedGraph graph;
+    private UnmodifiableDirectedGraph graph;
     private String master;
 
+    String getMaster() {
+        return master;
+    }
+
+    void setMembers(Set<Member> members) {
+        this.members = new ArrayList<Member>(members);
+    }
+    
     List<Member> getMembers() {
         return Collections.unmodifiableList(members);
     }
     
-    String getMaster() {
-        return master;
+    void addMember(Member member) {
+        members.add(member);
     }
     
-    void setMembers(Set<Member> members) {
-        this.members = new ArrayList<Member>(members);
+    void removeMember(Member member) {
+        members.remove(member);
     }
 
     void updateWorkerState(String id, ComputationState state) {
@@ -47,9 +56,13 @@ final class ClusterInfo {
     }
 
     void updateNodeDescriptor(String id, NodeDescriptor descriptor) {
-        NodeInfo node = getNode(id);
-        node.descriptor = descriptor;
-        nodes.put(id, node);
+        if (descriptor != null) {
+            NodeInfo node = getNode(id);
+            node.descriptor = descriptor;
+            nodes.put(id, node);
+        } else { // descriptor == null -> means that node was deleted
+            nodes.remove(id);
+        }
     }
 
     void setTopologyType(String type) {
@@ -66,7 +79,7 @@ final class ClusterInfo {
     }
 
     private NodeInfo getNode(String id) {
-        if(nodes.containsKey(id)) {
+        if (nodes.containsKey(id)) {
             return nodes.get(id);
         } else {
             return new NodeInfo();
