@@ -18,4 +18,12 @@ public final class DTOFactory {
 		dto.setErrors(errors.toArray(new String[errors.size()]));
 		return dto;
 	}
+	
+	public static ClusterDTO createCluster(String clientName, String masterNode, List<String> members){
+		ClusterDTO dto = new ClusterDTO();
+		dto.setClientName(clientName);
+		dto.setMasterNode(masterNode);
+		dto.setMembers(members.toArray(new String[members.size()]));
+		return dto;
+	}
 }

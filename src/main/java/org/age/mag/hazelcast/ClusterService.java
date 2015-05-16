@@ -2,6 +2,7 @@ package org.age.mag.hazelcast;
 
 import java.util.LinkedList;
 
+import org.age.mag.hazelcast.dto.ClusterDTO;
 import org.age.mag.hazelcast.dto.DTOFactory;
 import org.age.mag.hazelcast.dto.NodeDTO;
 
@@ -54,5 +55,14 @@ public final class ClusterService {
 						node.descriptor.type(), node.workerState,
 						node.status.errors())));
 		return nodes;
+	}
+	
+	/**
+	 * Method returns cluster information.
+	 * 
+	 * @return ClusterDTO
+	 */
+	public ClusterDTO getCluster() {
+		return DTOFactory.createCluster(getClientName(), getMasterNode(), getConnectedMembers());
 	}
 }

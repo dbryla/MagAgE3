@@ -8,17 +8,26 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.age.mag.hazelcast.ClusterService;
+import org.age.mag.hazelcast.dto.ClusterDTO;
 import org.age.mag.hazelcast.dto.NodeDTO;
 
-@Path("/hello")
+@Path("/")
 public class HazelcastService {
 	
+	private ClusterService service = new ClusterService();
+	
 	@GET
+	@Path("nodes")
 	@Produces(MediaType.APPLICATION_JSON)
-	public LinkedList<NodeDTO> getMsg() {
-		ClusterService service = new ClusterService();
+	public LinkedList<NodeDTO> getNodes() {
 		return service.getNodes();
- 
+	}
+	
+	@GET
+	@Path("cluster")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ClusterDTO getCluster() {
+		return service.getCluster();
 	}
 
 }
