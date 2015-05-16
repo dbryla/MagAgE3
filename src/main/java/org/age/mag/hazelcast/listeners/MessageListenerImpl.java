@@ -12,7 +12,7 @@ public class MessageListenerImpl implements MessageListener {
 
     @Override
     public void onMessage(Message message) {
-        log.info("channel: " + message.toString() + " " + message.getMessageObject().toString());
+        log.info(message.toString() + " " + message.getMessageObject().toString());
 
     }
 

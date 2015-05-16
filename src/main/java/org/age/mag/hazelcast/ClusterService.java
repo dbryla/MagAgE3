@@ -1,11 +1,15 @@
 package org.age.mag.hazelcast;
 
+import java.util.Collection;
 import java.util.LinkedList;
 
 import org.age.mag.hazelcast.dto.DTOFactory;
 import org.age.mag.hazelcast.dto.NodeDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class ClusterService {
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	private ClusterInfo clusterInfo;
 
@@ -49,10 +53,9 @@ public final class ClusterService {
 	 */
 	public LinkedList<NodeDTO> getNodes() {
 		LinkedList<NodeDTO> nodes = new LinkedList<NodeDTO>();
-		clusterInfo.getNodes().forEach(
-				node -> nodes.add(DTOFactory.createNode(node.id,
-						node.descriptor.type(), node.workerState,
-						node.status.errors())));
+		Collection<NodeInfo> data = clusterInfo.getNodes();
+		log.debug("Getting list of nodes: " + data);
+		data.forEach(node -> nodes.add(DTOFactory.createNode(node)));
 		return nodes;
 	}
 }

@@ -48,7 +48,7 @@ public class NodeDescriptorListener implements MapClearedListener,
 	@Override
 	public void entryAdded(EntryEvent event) {
 		log.info(event.toString());
-
+		ClusterManager.addNodeDescriptor((String)event.getKey(), (NodeDescriptor) event.getValue());
 	}
 
 	@Override

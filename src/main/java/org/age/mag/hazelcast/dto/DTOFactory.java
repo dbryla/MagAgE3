@@ -2,20 +2,22 @@ package org.age.mag.hazelcast.dto;
 
 import java.util.List;
 
+import org.age.mag.hazelcast.NodeInfo;
 import org.age.services.identity.NodeType;
-import org.age.services.worker.internal.ComputationState;
 
 public final class DTOFactory {
 	private DTOFactory() {
 	}
 
-	public static NodeDTO createNode(String id, NodeType type, ComputationState workerState,
-			List<Throwable> errors) {
+	public static NodeDTO createNode(NodeInfo node) {
 		NodeDTO dto = new NodeDTO();
-		dto.setId(id);
-		dto.setType(type.toString());
-		dto.setWorkerState(workerState.toString());
-		dto.setErrors(errors.toArray(new String[errors.size()]));
+		dto.setId(node.getId());
+		dto.setType(node.getDescriptor().type().toString());
+		if (!dto.type.equals(NodeType.SATELLITE.toString())) {
+			dto.setWorkerState(node.getWorkerState().toString());
+			List<Throwable> errors = node.getStatus().errors();
+			dto.setErrors(errors.toArray(new String[errors.size()]));
+		}
 		return dto;
 	}
 }

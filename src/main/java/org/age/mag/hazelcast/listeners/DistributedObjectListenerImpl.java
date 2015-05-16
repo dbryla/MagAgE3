@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import com.hazelcast.core.DistributedObjectEvent;
 import com.hazelcast.core.DistributedObjectListener;
 
+//FIXME: delete me if no logs
+
 public class DistributedObjectListenerImpl implements DistributedObjectListener {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 

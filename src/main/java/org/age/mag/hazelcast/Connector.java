@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.hazelcast.client.HazelcastClient;
-import com.hazelcast.config.Config;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.HazelcastInstanceNotActiveException;
 
@@ -22,10 +21,6 @@ public final class Connector {
 
 	public void connect() {
 		try {
-			 Config config = new Config();
-		        config.getNetworkConfig().getJoin().getMulticastConfig().setEnabled(false);
-		        config.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(true);
-		        
 			client = HazelcastClient.newHazelcastClient();
 			connected = true;
 		} catch (IllegalStateException e) {
@@ -47,13 +42,6 @@ public final class Connector {
 		}
 		connected = false;
 		return connected;
-	}
-
-	public HazelcastInstance getClient() throws ClientIsNotConnectedException {
-		if (isConnected()) {
-			return client;
-		}
-		throw new ClientIsNotConnectedException();
 	}
 
 }

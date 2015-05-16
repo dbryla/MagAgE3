@@ -3,6 +3,7 @@ package org.age.mag.hazelcast;
 import java.util.Set;
 
 import org.age.services.identity.NodeDescriptor;
+import org.age.services.identity.NodeType;
 import org.age.services.status.Status;
 import org.age.services.worker.internal.ComputationState;
 import org.jgrapht.graph.UnmodifiableDirectedGraph;
@@ -30,23 +31,29 @@ public final class ClusterManager {
     }
 
     public static void addNodeDescriptor(String id, NodeDescriptor descriptor) {
-        clusterInfo.updateNodeDescriptor(id, descriptor);
+    	NodeInfo node = clusterInfo.getNode(id, descriptor.type() == NodeType.SATELLITE);
+		node.descriptor = descriptor;
+		clusterInfo.addNode(node);
     }
 
     public static void addNodeStatus(String id, Status status) {
-        clusterInfo.updateNodeStatus(id, status);
+		NodeInfo node = clusterInfo.getNode(id);
+		node.status = status;
+		clusterInfo.addNode(node);
     }
 
-    static void addWorkerState(String id, ComputationState state) {
-        clusterInfo.updateWorkerState(id, state);
+    public static void addWorkerState(String id, ComputationState state) {
+		NodeInfo node = clusterInfo.getNode(id);
+		node.workerState = state;
+		clusterInfo.addNode(node);
+    }
+    
+    public static void removeNode(String id) {
+        clusterInfo.removeNode(id);
     }
 
     public static void setMaster(String id) {
         clusterInfo.setMaster(id);
-    }
-
-    static void setMembers(Set<Member> members) {
-        clusterInfo.setMembers(members);
     }
 
     @SuppressWarnings("rawtypes")
@@ -58,16 +65,15 @@ public final class ClusterManager {
         clusterInfo.setTopologyType(type);
     }
 
-    public static void removeNode(String id) {
-        clusterInfo.removeNode(id);
+    public static void addMember(Member member) {
+        clusterInfo.addMember(member);   
     }
-
+    
     public static void removeMember(Member member) {
         clusterInfo.removeMember(member);
     }
 
-    public static void addMember(Member member) {
-        clusterInfo.addMember(member);
-        
+    static void setMembers(Set<Member> members) {
+        clusterInfo.setMembers(members);
     }
 }
