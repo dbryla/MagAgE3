@@ -1,0 +1,45 @@
+#nodeDiv, #clusterDiv {
+	width: 49%;
+	display: inline-block;
+	padding: 1px;
+}
+#clusterDiv {
+	float: right;
+}
+table {
+	width: 100%;
+}
+
+table#tableNodes tr:nth-child(even) {
+	background-color: #EFEFEF;
+}
+
+table#tableNodes tr:nth-child(odd) {
+	background-color: #fff;
+}
+
+.whiteFont, #tableNodes th {
+	color: white;
+	background-color: #3C3C3C;
+	    background-image:linear-gradient(#434343, #282828);
+}
+
+#nodeHeading, #clusterHeading {
+	display: inline-block;
+}
+
+#refreshButton {
+	display: inline-block;
+	vertical-align: baseline;
+	float: right;
+}
+#consoleTextArea{
+	color: white;
+	background-color: black;
+	
+}
+#consoleTextArea, #inputTextArea{
+	width:100%;
+	resize: none;
+	
+}
