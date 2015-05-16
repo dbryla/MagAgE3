@@ -1,17 +1,20 @@
 package org.age.mag.server;
 
-import org.age.mag.Sample;
 import org.age.mag.api.HazelcastService;
+import org.age.mag.hazelcast.Connector;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ServerInit {
+	private static final Logger log = LoggerFactory.getLogger(ServerInit.class);
+	
 	public static void main(String[] args) {
-		new Sample();
 		Server jettyServer = new Server(8080);
 		ResourceHandler resource_handler = new ResourceHandler();
 		resource_handler.setDirectoriesListed(true);
@@ -35,10 +38,11 @@ public class ServerInit {
 
 		try {
 			jettyServer.start();
+			Connector con = Connector.getInstance();
+	    	con.connect();
 			jettyServer.join();
 		} catch (Exception e) {
-			// TODO log message
-			e.printStackTrace();
+			log.error(e.getMessage());
 		} finally {
 			jettyServer.destroy();
 		}

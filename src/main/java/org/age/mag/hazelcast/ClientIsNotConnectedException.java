@@ -9,7 +9,7 @@ public final class ClientIsNotConnectedException extends Exception {
 	
 	@Override
 	public String getMessage() {
-		return "Connect connector before using client.";
+		return "Start cluster before using client.";
 	}
 
 }
