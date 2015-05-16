@@ -1,5 +1,6 @@
 package org.age.mag.server;
 
+import org.age.mag.Sample;
 import org.age.mag.api.HazelcastService;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
@@ -10,7 +11,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 
 public class ServerInit {
 	public static void main(String[] args) {
-
+		new Sample();
 		Server jettyServer = new Server(8080);
 		ResourceHandler resource_handler = new ResourceHandler();
 		resource_handler.setDirectoriesListed(true);

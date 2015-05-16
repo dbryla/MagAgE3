@@ -58,8 +58,8 @@ public final class ClusterManager {
         clusterInfo.setTopologyType(type);
     }
 
-    public static void removeNodeDescriptor(NodeDescriptor descriptor) {
-        clusterInfo.updateNodeDescriptor(descriptor.id(), null);
+    public static void removeNode(String id) {
+        clusterInfo.removeNode(id);
     }
 
     public static void removeMember(Member member) {

@@ -5,16 +5,29 @@ import org.age.mag.hazelcast.Connector;
 import org.slf4j.LoggerFactory;
 
 public class Sample {
-
-    public static void main(String[] args) {
-        
-    	Connector con = Connector.getInstance();
+	
+	public Sample() {
+		Connector con = Connector.getInstance();
     	con.connect();
     	ClusterService service = new ClusterService();
     	System.out.println(service.getClientName());
     	System.out.println(service.getMasterNode());
     	System.out.println(service.getConnectedMembers());
     	LoggerFactory.getLogger(Sample.class).debug("This will be only logged on console");
+    	service.getNodes();
+
+	}
+
+    public static void main(String[] args) {
+        
+		Connector con = Connector.getInstance();
+    	con.connect();
+    	ClusterService service = new ClusterService();
+    	System.out.println(service.getClientName());
+    	System.out.println(service.getMasterNode());
+    	System.out.println(service.getConnectedMembers());
+    	LoggerFactory.getLogger(Sample.class).debug("This will be only logged on console");
+    	service.getNodes();
     	
        /* while(true) {
         	boolean isConn = con.isConnected();

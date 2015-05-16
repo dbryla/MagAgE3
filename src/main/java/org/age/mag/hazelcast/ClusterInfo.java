@@ -16,73 +16,78 @@ import com.hazelcast.core.Member;
 
 final class ClusterInfo {
 
-    private ArrayList<Member> members;
-    private HashMap<String, NodeInfo> nodes = new HashMap<String, NodeInfo>();
-    private String topologyType;
-    @SuppressWarnings("rawtypes")
-    private UnmodifiableDirectedGraph graph;
-    private String master;
+	private ArrayList<Member> members;
+	private HashMap<String, NodeInfo> nodes = new HashMap<String, NodeInfo>();
+	private String topologyType;
+	@SuppressWarnings("rawtypes")
+	private UnmodifiableDirectedGraph graph;
+	private String master;
 
-    String getMaster() {
-        return master;
-    }
+	String getMaster() {
+		return master;
+	}
 
-    void setMembers(Set<Member> members) {
-        this.members = new ArrayList<Member>(members);
-    }
-    
-    List<Member> getMembers() {
-        return Collections.unmodifiableList(members);
-    }
-    
-    void addMember(Member member) {
-        members.add(member);
-    }
-    
-    void removeMember(Member member) {
-        members.remove(member);
-    }
+	void setMembers(Set<Member> members) {
+		this.members = new ArrayList<Member>(members);
+	}
 
-    void updateWorkerState(String id, ComputationState state) {
-        NodeInfo node = getNode(id);
-        node.workerState = state;
-        nodes.put(id, node);
-    }
+	List<Member> getMembers() {
+		return Collections.unmodifiableList(members);
+	}
 
-    void updateNodeStatus(String id, Status status) {
-        NodeInfo node = getNode(id);
-        node.status = status;
-        nodes.put(id, node);
-    }
+	void addMember(Member member) {
+		members.add(member);
+	}
 
-    void updateNodeDescriptor(String id, NodeDescriptor descriptor) {
-        if (descriptor != null) {
-            NodeInfo node = getNode(id);
-            node.descriptor = descriptor;
-            nodes.put(id, node);
-        } else { // descriptor == null -> means that node was deleted
-            nodes.remove(id);
-        }
-    }
+	void removeMember(Member member) {
+		members.remove(member);
+	}
 
-    void setTopologyType(String type) {
-        topologyType = type;
-    }
+	void updateWorkerState(String id, ComputationState state) {
+		NodeInfo node = getNode(id);
+		node.workerState = state;
+		nodes.put(id, node);
+	}
 
-    @SuppressWarnings("rawtypes")
-    void setTopologyGraph(UnmodifiableDirectedGraph unmodifiableDirectedGraph) {
-        this.graph = unmodifiableDirectedGraph;
-    }
+	void updateNodeStatus(String id, Status status) {
+		NodeInfo node = getNode(id);
+		node.status = status;
+		nodes.put(id, node);
+	}
 
-    void setMaster(String id) {
-        this.master = id;
-    }
+	void updateNodeDescriptor(String id, NodeDescriptor descriptor) {
+		NodeInfo node = getNode(id);
+		node.descriptor = descriptor;
+		nodes.put(id, node);
+	}
 
-    private NodeInfo getNode(String id) {
-        if (nodes.containsKey(id)) {
-            return nodes.get(id);
-        } else {
-            return new NodeInfo();
-        }
-    }
+	void removeNode(String id) {
+		nodes.remove(id);
+	}
+
+	void setTopologyType(String type) {
+		topologyType = type;
+	}
+
+	@SuppressWarnings("rawtypes")
+	void setTopologyGraph(UnmodifiableDirectedGraph unmodifiableDirectedGraph) {
+		this.graph = unmodifiableDirectedGraph;
+	}
+
+	void setMaster(String id) {
+		this.master = id;
+	}
+
+	private NodeInfo getNode(String id) {
+		if (nodes.containsKey(id)) {
+			return nodes.get(id);
+		} else {
+			return new NodeInfo(id);
+		}
+	}
+
+	Collection<NodeInfo> getNodes() {
+		return Collections.unmodifiableCollection(nodes.values());
+	}
+
 }

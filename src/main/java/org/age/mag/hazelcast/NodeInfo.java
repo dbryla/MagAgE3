@@ -6,7 +6,12 @@ import org.age.services.worker.internal.ComputationState;
 
 final class NodeInfo {
 
-    ComputationState workerState;
+    String id;
+	public NodeInfo(String id) {
+		this.id = id;
+	}
+	
+	ComputationState workerState;
     Status status;
     NodeDescriptor descriptor;
 

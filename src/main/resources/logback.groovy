@@ -14,6 +14,7 @@ appender("STDOUT", ConsoleAppender) {
 
 appender("LISTENER", FileAppender) {
   file = "log/listeners.log"
+  append = false
   encoder(PatternLayoutEncoder) {
   	pattern = "%d{HH:mm:ss.SSS} %-5level %logger{30} - %msg%n"
   }
@@ -35,12 +36,22 @@ appender("SERVER", FileAppender) {
     level = INFO
   }
   file = "log/server.log"
-  append = true
+  append = false
   encoder(PatternLayoutEncoder) {
   	pattern = "%d{HH:mm:ss.SSS} %-5level %logger{30} - %msg%n"
   }
 }
+
+appender("JETTY", FileAppender) {
+  file = "log/jetty.log"
+  append = false
+  encoder(PatternLayoutEncoder) {
+  	pattern = "%d{HH:mm:ss.SSS} %-5level %logger{30} - %msg%n"
+  }
+}
+
 root(ALL, ["STDOUT"])
+logger("org.eclipse.jetty", ALL, ["JETTY", "ERROR"], false)
 logger("org.age.mag", ALL, ["SERVER", "ERROR"])
-logger("org.age.mag.hazelcast.listeners", ALL, ["LISTENER"], false)
+logger("org.age.mag.hazelcast.listeners", ALL, ["LISTENER", "ERROR"], false)
 
