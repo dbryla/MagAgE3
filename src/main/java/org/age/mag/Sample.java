@@ -14,7 +14,6 @@ public class Sample {
     	System.out.println(service.getMasterNode());
     	System.out.println(service.getConnectedMembers());
     	LoggerFactory.getLogger(Sample.class).debug("This will be only logged on console");
-    	service.getNodes();
 
 	}
 
@@ -27,7 +26,6 @@ public class Sample {
     	System.out.println(service.getMasterNode());
     	System.out.println(service.getConnectedMembers());
     	LoggerFactory.getLogger(Sample.class).debug("This will be only logged on console");
-    	service.getNodes();
     	
        /* while(true) {
         	boolean isConn = con.isConnected();

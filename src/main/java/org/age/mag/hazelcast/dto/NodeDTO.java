@@ -4,6 +4,7 @@ public class NodeDTO {
 	String id;
 	String type;
 	String workerState;
+	String[] errors;
 	
 	public String getId() {
 		return id;
@@ -29,6 +30,5 @@ public class NodeDTO {
 	public void setErrors(String[] errors) {
 		this.errors = errors;
 	}
-	String[] errors;
 	
 }

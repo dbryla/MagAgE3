@@ -7,9 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import org.age.services.identity.NodeDescriptor;
-import org.age.services.status.Status;
-import org.age.services.worker.internal.ComputationState;
 import org.jgrapht.graph.UnmodifiableDirectedGraph;
 
 import com.hazelcast.core.Member;
@@ -42,27 +39,29 @@ final class ClusterInfo {
 	void removeMember(Member member) {
 		members.remove(member);
 	}
-
-	void updateWorkerState(String id, ComputationState state) {
-		NodeInfo node = getNode(id);
-		node.workerState = state;
-		nodes.put(id, node);
+	
+	void addNode(NodeInfo node) {
+		nodes.put(node.id, node);
 	}
-
-	void updateNodeStatus(String id, Status status) {
-		NodeInfo node = getNode(id);
-		node.status = status;
-		nodes.put(id, node);
+	
+	NodeInfo getNode(String id) {
+		return getNode(id, false);
 	}
-
-	void updateNodeDescriptor(String id, NodeDescriptor descriptor) {
-		NodeInfo node = getNode(id);
-		node.descriptor = descriptor;
-		nodes.put(id, node);
+	
+	NodeInfo getNode(String id, boolean isSatellite) {
+		if (nodes.containsKey(id)) {
+			return nodes.get(id);
+		} else {
+			return new NodeInfo(id, isSatellite); 
+		}
 	}
 
 	void removeNode(String id) {
 		nodes.remove(id);
+	}
+	
+	Collection<NodeInfo> getNodes() {
+		return Collections.unmodifiableCollection(nodes.values());
 	}
 
 	void setTopologyType(String type) {
@@ -76,18 +75,6 @@ final class ClusterInfo {
 
 	void setMaster(String id) {
 		this.master = id;
-	}
-
-	private NodeInfo getNode(String id) {
-		if (nodes.containsKey(id)) {
-			return nodes.get(id);
-		} else {
-			return new NodeInfo(id);
-		}
-	}
-
-	Collection<NodeInfo> getNodes() {
-		return Collections.unmodifiableCollection(nodes.values());
 	}
 
 }

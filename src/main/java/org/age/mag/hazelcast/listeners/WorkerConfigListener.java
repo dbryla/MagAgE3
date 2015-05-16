@@ -7,6 +7,8 @@ import com.hazelcast.core.EntryEvent;
 import com.hazelcast.core.EntryListener;
 import com.hazelcast.core.MapEvent;
 
+//FIXME: delete me if no logs
+
 @SuppressWarnings("rawtypes")
 public class WorkerConfigListener implements EntryListener {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
