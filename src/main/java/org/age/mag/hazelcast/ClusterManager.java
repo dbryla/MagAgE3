@@ -40,7 +40,7 @@ public final class ClusterManager {
 		NodeInfo node = clusterInfo.getNode(id);
 		node.status = status;
 		clusterInfo.addNode(node);
-    }
+	}
 
     public static void addWorkerState(String id, ComputationState state) {
 		NodeInfo node = clusterInfo.getNode(id);

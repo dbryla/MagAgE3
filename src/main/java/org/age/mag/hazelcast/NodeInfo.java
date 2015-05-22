@@ -24,7 +24,7 @@ public final class NodeInfo {
 	}
 
 
-	public boolean isSattelite() {
+	public boolean isSatellite() {
 		return satellite;
 	}
 
