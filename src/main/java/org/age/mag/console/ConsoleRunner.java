@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.Map;
 
-import org.age.mag.Props;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,16 +24,11 @@ public class ConsoleRunner {
     }
 
     public static void start() {
-        Props.loadProperties();
         ProcessBuilder builder = new ProcessBuilder(GRADLEW_COMMAND, NO_DAEMON, CONSOLE);
         builder.redirectErrorStream(true);
 //        builder.redirectInput(Redirect.INHERIT);
 //        builder.redirectOutput(Redirect.INHERIT);
-        builder.directory(Props.getAgeHomeDir());
         Map<String, String> environment = builder.environment();
-        if (!environment.containsKey("JAVA_HOME")) {
-            environment.put("JAVA_HOME", Props.getJavaHome());
-        }
         try {
             Process process = builder.start();
             input = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));

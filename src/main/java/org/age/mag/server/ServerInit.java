@@ -1,6 +1,5 @@
 package org.age.mag.server;
 
-import org.age.mag.Props;
 import org.age.mag.api.HazelcastService;
 import org.age.mag.hazelcast.Connector;
 import org.eclipse.jetty.server.Handler;
@@ -15,9 +14,7 @@ import org.slf4j.LoggerFactory;
 public class ServerInit {
 	private static final Logger log = LoggerFactory.getLogger(ServerInit.class);
 
-	public static void main(String[] args) {
-		// Load properties
-		Props.loadProperties();
+	public static void main(String[] args) {;
 		
 		// Configure server
 		Server jettyServer = new Server(8080);

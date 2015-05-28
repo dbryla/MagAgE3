@@ -25,7 +25,7 @@ appender("ERROR", FileAppender) {
     level = ERROR
   }
   file = "log/error.log"
-  append = true
+  append = false
   encoder(PatternLayoutEncoder) {
     pattern = "%d{HH:mm:ss.SSS} [%thread] %logger{30} - %msg%n"
   }
@@ -50,8 +50,36 @@ appender("JETTY", FileAppender) {
   }
 }
 
+appender("HAZELCAST", FileAppender) {
+  file = "log/hazelcast.log"
+  append = false
+  encoder(PatternLayoutEncoder) {
+  	pattern = "%d{HH:mm:ss.SSS} %-5level %logger{30} - %msg%n"
+  }
+}
+
+appender("SPRING", FileAppender) {
+  file = "log/spring.log"
+  append = false
+  encoder(PatternLayoutEncoder) {
+  	pattern = "%d{HH:mm:ss.SSS} %-5level %logger{30} - %msg%n"
+  }
+}
+
+appender("AGE", FileAppender) {
+  file = "log/age.log"
+  append = false
+  encoder(PatternLayoutEncoder) {
+  	pattern = "%d{HH:mm:ss.SSS} %-5level %logger{30} - %msg%n"
+  }
+}
+
+
 root(ALL, ["STDOUT"])
 logger("org.eclipse.jetty", ALL, ["JETTY", "ERROR"], false)
+logger("com.hazelcast", ALL, ["HAZELCAST", "ERROR"], false)
+logger("org.age", ALL, ["AGE", "ERROR"], false)
+logger("org.springframework", ALL, ["SPRING", "ERROR"], false)
 logger("org.age.mag", ALL, ["SERVER", "ERROR"])
 logger("org.age.mag.hazelcast.listeners", ALL, ["LISTENER", "ERROR"], false)
 
