@@ -2,27 +2,31 @@ package org.age.mag.console;
 
 import java.util.ArrayList;
 
+/**
+ * Class for representing available command with all parameters
+ *
+ */
 public final class Command {
 
-	private String cmdName;
-	private ArrayList<String> options = new ArrayList<String>();
-	private ArrayList<String> operations = new ArrayList<String>();
+    private String cmdName;
+    private ArrayList<String> options = new ArrayList<String>();
+    private ArrayList<String> operations = new ArrayList<String>();
 
-	public Command(String cmd) {
-		this.cmdName = cmd;
-	}
+    Command(String cmd) {
+        this.cmdName = cmd;
+    }
 
-	public void addParameter(String option) {
-		if (option.startsWith("--")) {
-			options.add(option);
-		} else {
-			operations.add(option);
-		}
-	}
-	
-	@Override
-	public String toString() {
-		return "Command: " + cmdName + ", operations: " + operations + ", options: " + options;
-	}
+    void addParameter(String option) {
+        if (option.startsWith("--")) {
+            options.add(option);
+        } else {
+            operations.add(option);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Command: " + cmdName + ", operations: " + operations + ", options: " + options;
+    }
 
 }

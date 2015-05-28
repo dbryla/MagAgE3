@@ -7,7 +7,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.age.mag.hazelcast.ClientIsNotConnectedException;
 import org.age.mag.hazelcast.ClusterService;
 import org.age.mag.hazelcast.dto.ClusterDTO;
 import org.age.mag.hazelcast.dto.NodeDTO;
