@@ -12,9 +12,7 @@ dependencies {
     	exclude group: 'net.sourceforge.findbugs'
     }
     
-    compile 'org.age:age3:+', 'org.eclipse.jetty:jetty-ant:+', 
-    		'org.glassfish.jersey.containers:jersey-container-servlet:+', 
-    		'org.glassfish.jersey.media:jersey-media-moxy:+'
+    compile 'org.age:age3:+', 'org.springframework.boot:spring-boot-starter-thymeleaf:+'
 	
 }
 
