@@ -11,22 +11,7 @@ dependencies {
     compile ('com.hazelcast:hazelcast-client:+') {
     	exclude group: 'net.sourceforge.findbugs'
     }
-    compile 'org.springframework.boot:spring-boot-starter-thymeleaf:+'
-     compile 'javax.inject:javax.inject:1'
-    compile 'org.springframework:spring-context:+'
-    compile 'org.springframework:spring-test:+'
-   
-    compile 'com.hazelcast:hazelcast-spring:+'
-    compile 'org.checkerframework:checker:+'
-    compile 'com.google.code.findbugs:jsr305:+'
-    compile 'com.google.guava:guava:+'
-    compile 'org.slf4j:slf4j-api:+'
-    compile 'org.slf4j:jcl-over-slf4j:+'
-    compile 'ch.qos.logback:logback-classic:+'
-    compile 'jline:jline:+'
-    compile 'org.jgrapht:jgrapht-core:+'
-    compile 'com.beust:jcommander:+','org.codehaus.groovy:groovy-all:+'
-    
+   compile 'org.age:age3:+', 'org.springframework.boot:spring-boot-starter-thymeleaf:+'
 }
 
 task wrapper(type: Wrapper) {
