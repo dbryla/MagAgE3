@@ -3,6 +3,10 @@ package org.age.mag.console;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.LinkedList;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Class for holding output from AgE3 console commands. To get output from
@@ -10,21 +14,24 @@ import java.io.PrintWriter;
  *
  */
 public class OutputWriter extends PrintWriter {
-    private StringBuilder outputBuffer;
+	private final Logger log = LoggerFactory
+			.getLogger(OutputWriter.class);
+    private LinkedList<String> outputList;
 
     public OutputWriter() throws FileNotFoundException {
         super(new File("log", "console.log"));
-        outputBuffer = new StringBuilder();
+        outputList = new LinkedList<String>();
     }
 
     @Override
     public void println(String x) {
-        super.println(x);
-        outputBuffer.append(x + System.lineSeparator());
+        super.write(x + System.lineSeparator());
+        log.debug(x);
+        outputList.add(x);
     }
 
-    public String getOutput() {
-        return outputBuffer.toString();
+    public LinkedList<String> getOutput() {
+        return outputList;
     }
 
 }

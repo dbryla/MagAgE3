@@ -13,10 +13,22 @@ public final class Command {
     private ArrayList<String> operations = new ArrayList<String>();
 
     Command(String cmd) {
-        this.cmdName = cmd;
+        cmdName = cmd;
     }
 
-    void addParameter(String option) {
+    public String getCmdName() {
+		return cmdName;
+	}
+
+	public ArrayList<String> getOptions() {
+		return options;
+	}
+
+	public ArrayList<String> getOperations() {
+		return operations;
+	}
+
+	void addParameter(String option) {
         if (option.startsWith("--")) {
             options.add(option);
         } else {
@@ -26,7 +38,7 @@ public final class Command {
 
     @Override
     public String toString() {
-        return "Command: " + cmdName + ", operations: " + operations + ", options: " + options;
+        return "Command: " + getCmdName() + ", operations: " + operations + ", options: " + options;
     }
 
 }

@@ -32,9 +32,6 @@ appender("ERROR", FileAppender) {
 }
 
 appender("SERVER", FileAppender) {
-  filter(ch.qos.logback.classic.filter.ThresholdFilter) {
-    level = INFO
-  }
   file = "log/server.log"
   append = false
   encoder(PatternLayoutEncoder) {

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+	<title>Managment panel</title>
+
+</head>
+<body>
+	<h1 class="whiteFont">AgE3</h1>
+	<h3 class="error" th:if="${error}" th:text="${error}"></h3>
+	
+	<div>
+		<h2>Cluster info</h2>
+		<div>
+			<p>
+				Client name: <b th:text="${cluster.clientName}"></b>, 
+				Master node: <b th:text="${cluster.masterNode}"></b>, 
+				Members: <b th:each="member : ${cluster.members}" th:text="${member} "></b>
+			</p> 
+		</div>
+	</div>
+
+	<div>
+		<h2>Nodes info</h2>
+		<table id="tableNodes">
+			<tr>
+				<th>Node id</th>
+				<th>Node type</th>
+				<th>Worker state</th>
+				<th>Errors</th>
+			</tr>
+			<tr th:each="node : ${nodes}">
+				<td th:text="${node.id}"></td>
+				<td th:text="${node.type}"></td>
+				<td th:text="${node.workerState}"></td>
+				<td th:each="error : ${node.errors}" th:text="${error} "></td>
+			</tr>
+		</table>
+	</div>
+
+	<div>
+		<h2>Commands</h2>
+		<div>
+			<form action="#" th:object="${cmd}" th:action="@{/}" method="post">
+				<label>Select command</label> 
+				<select th:field="*{name}">
+					<option th:each="command : ${commands}"
+						th:value="${command.cmdName}" 
+						th:text="${command.cmdName}">
+					</option>
+				</select>
+				<button type="submit">Submit</button>
+			</form>
+		</div>
+
+
+		<div th:if="${cmd.name}">
+			<form action="#" th:object="${cmd}" th:action="@{/execution/}" method="post">		
+				<div th:if="${!operations.isEmpty()}">		
+					<label> Select operation </label>
+					<select th:field="*{operation}">
+						<option th:each="op : ${operations}"
+							th:value="${op}" 
+							th:text="${op}">
+						</option>
+					</select>
+				</div>
+				<div th:if="${!options.isEmpty()}">		
+					<label>Select option</label>
+					<select th:field="*{option}">
+						<option th:each="op : ${options}"
+							th:value="${op}" 
+							th:text="${op}">
+						</option>
+					</select>
+					<input type="text" th:field="*{optionValue}" />
+
+				</div>
+				<p>Command to execute: <b th:text="${cmd.name}"></b></p>
+				<input type="hidden" th:field="*{name}" th:value="${cmd.name}" />
+				
+				<button type="submit" >Execute</button>
+				
+			</form>
+		</div>
+
+		
+
+	</div>
+
+
+</body>
+</html>

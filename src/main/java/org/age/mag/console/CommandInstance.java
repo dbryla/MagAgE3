@@ -1,27 +1,54 @@
 package org.age.mag.console;
 
-import java.util.Arrays;
-
 /**
  * Command instance which is passed to console for commend execution
  *
  */
 public final class CommandInstance {
 
-    private StringBuilder command = new StringBuilder();
+	private String name;
+	private String operation = "";
+	private String option = "";
+	private String optionValue = "";
 
-    /**
-     * Constructor for command
-     * 
-     * @param commands
-     *            string(s) to invoke on AgE3 console
-     */
-    public CommandInstance(String... commands) {
-        Arrays.asList(commands).forEach(command::append);
-    }
+	public String getFullCommand() throws NullCommandException {
+		if(name == null){
+			throw new NullCommandException();
+		}
+		option = optionValue.equals("") ? "" : option;
+		return name + " " + operation + " " + option + " " + optionValue;
+	}
 
-    public String getCommand() {
-        return command.toString();
-    }
+	public String getOperation() {
+		return operation;
+	}
+
+	public String getOption() {
+		return option;
+	}
+
+	public void setOperation(String operation) {
+		this.operation = operation;
+	}
+
+	public void setOption(String option) {
+		this.option = option;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getOptionValue() {
+		return optionValue;
+	}
+
+	public void setOptionValue(String optionValue) {
+		this.optionValue = optionValue;
+	}
 
 }

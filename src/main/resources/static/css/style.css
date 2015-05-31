@@ -1,4 +1,3 @@
-
 table#tableNodes tr:nth-child(even) {
 	background-color: #EFEFEF;
 }
@@ -12,23 +11,10 @@ table#tableNodes tr:nth-child(odd) {
 	background-color: #3C3C3C;
 	    background-image:linear-gradient(#434343, #282828);
 }
-
-#nodeHeading, #clusterHeading {
-	display: inline-block;
+button {
+	background-color: #C9E609;
 }
 
-#refreshButton {
-	display: inline-block;
-	vertical-align: baseline;
-	float: right;
-}
-#consoleTextArea{
-	color: white;
-	background-color: black;
-	
-}
-#consoleTextArea, #inputTextArea{
-	width:100%;
-	resize: none;
-	
+.error {
+	color: red;
 }
