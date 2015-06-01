@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+	<title>Managment panel</title>
+
+</head>
+<body>
+	<h1 class="whiteFont">AgE3</h1>
+	<form action="#" th:action="@{/}" method="get">
+		<button type="submit">Return</button>
+		</form>
+		<h3>Executed command:</h3>
+		<div>
+			 
+			<b th:text="${execution.command.name}"></b>
+			<b th:if="${execution.command.operation}" th:text="${execution.command.operation}"></b>
+			<b th:if="${execution.command.option}" th:text="${execution.command.option}"></b>
+			<b th:if="${execution.command.optionValue}" th:text="${execution.command.optionValue}"></b>
+		</div>		
+		<h3>Output:</h3>
+		<p th:each="output : ${execution.output.getOutput()}" th:text="${output}"></p>
+			
+
+</body>
+</html>
