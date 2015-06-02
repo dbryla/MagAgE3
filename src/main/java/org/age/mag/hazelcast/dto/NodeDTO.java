@@ -4,7 +4,7 @@ public class NodeDTO {
 	String id;
 	String type;
 	String workerState;
-	String[] errors;
+	Throwable[] errors;
 	
 	public String getId() {
 		return id;
@@ -24,10 +24,10 @@ public class NodeDTO {
 	public void setWorkerState(String workerState) {
 		this.workerState = workerState;
 	}
-	public String[] getErrors() {
+	public Throwable[] getErrors() {
 		return errors;
 	}
-	public void setErrors(String[] errors) {
+	public void setErrors(Throwable[] errors) {
 		this.errors = errors;
 	}
 	

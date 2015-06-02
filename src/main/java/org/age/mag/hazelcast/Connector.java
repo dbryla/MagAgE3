@@ -2,6 +2,7 @@ package org.age.mag.hazelcast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.core.HazelcastInstance;
@@ -40,6 +41,7 @@ public final class Connector {
             connected = false;
         }
         if (connected) {
+            log.info("Starting EventsObserver.");
             EventsObserver.start(client);
         }
     }
@@ -52,9 +54,11 @@ public final class Connector {
     public boolean isConnected() {
         if (connected) {
             try {
-                log.info("Client " + client.getName() + " is connected.");
+                Assert.notNull(ClusterManager.getClusterInfo());
+                log.debug("Cluster info {}", ClusterManager.getClusterInfo());
+                log.info("Client {} is connected.", client.getName());
                 return connected;
-            } catch (HazelcastInstanceNotActiveException e) {
+            } catch (HazelcastInstanceNotActiveException | IllegalArgumentException e) {
                 // Ignore exception when there is no active nodes
             }
         }

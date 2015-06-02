@@ -39,8 +39,8 @@ appender("SERVER", FileAppender) {
   }
 }
 
-appender("JETTY", FileAppender) {
-  file = "log/jetty.log"
+appender("THYMELEAF", FileAppender) {
+  file = "log/thymeleaf.log"
   append = false
   encoder(PatternLayoutEncoder) {
   	pattern = "%d{HH:mm:ss.SSS} %-5level %logger{30} - %msg%n"
@@ -73,7 +73,7 @@ appender("AGE", FileAppender) {
 
 
 root(ALL, ["STDOUT"])
-logger("org.eclipse.jetty", ALL, ["JETTY", "ERROR"], false)
+logger("org.thymeleaf", ALL, ["THYMELEAF", "ERROR"], false)
 logger("com.hazelcast", ALL, ["HAZELCAST", "ERROR"], false)
 logger("org.age", ALL, ["AGE", "ERROR"], false)
 logger("org.springframework", ALL, ["SPRING", "ERROR"], false)

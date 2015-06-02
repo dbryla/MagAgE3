@@ -32,6 +32,9 @@ public class ManagmentController {
 	@RequestMapping("/")
 	public String getHome(Model model) {
 		if (guard.isConnected()) {
+		    if (clusterService.isNotInitialized()) {
+		        clusterService = new ClusterService();
+		    }
 			addMainAttributes(model);
 			model.addAttribute("cmd", new CommandInstance());
 		} else {

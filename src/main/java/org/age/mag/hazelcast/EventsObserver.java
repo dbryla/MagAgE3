@@ -69,7 +69,7 @@ final class EventsObserver {
                     ((IMap<String, Status>) instance).entrySet().forEach(
                             entry -> ClusterManager.addNodeStatus(entry.getKey(), entry.getValue()));
                     ((IMap<String, Status>) instance).addEntryListener(new NodeStatusListener(), true);
-                    break;
+                    break; 
                 case "discovery/members":
                     ((IMap<String, NodeDescriptor>) instance).entrySet().forEach(
                             entry -> ClusterManager.addNodeDescriptor(entry.getKey(), entry.getValue()));

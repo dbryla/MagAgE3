@@ -9,68 +9,86 @@ import org.age.mag.hazelcast.dto.NodeDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** 
+/**
  * Service for getting useful information about cluster instance
  * 
  *
  */
 public final class ClusterService {
-	private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-	private ClusterInfo clusterInfo;
+    private ClusterInfo clusterInfo;
 
-	public ClusterService() {
-		clusterInfo = ClusterManager.getClusterInfo();
-	}
+    private boolean notInitialized;
 
-	/**
-	 * 
-	 * @return connected client name
-	 */
-	public String getClientName() {
-		return ClusterManager.getName();
-	}
+    public ClusterService() {
+        clusterInfo = ClusterManager.getClusterInfo();
+        notInitialized = clusterInfo == null;
+    }
 
-	/**
-	 * Method returns connected members to a cluster.
-	 * 
-	 * @return list with string representation of each connected member
-	 */
-	public LinkedList<String> getConnectedMembers() {
-		LinkedList<String> members = new LinkedList<String>();
-		clusterInfo.getMembers().forEach(
-				member -> members.add(member.getSocketAddress().toString()));
-		return members;
-	}
+    /**
+     * 
+     * @return connected client name
+     */
+    public String getClientName() {
+        return ClusterManager.getName();
+    }
 
-	/**
-	 * Method returns master node id.
-	 * 
-	 * @return id
-	 */
-	public String getMasterNode() {
-		return clusterInfo.getMaster();
-	}
+    /**
+     * Method returns connected members to a cluster.
+     * 
+     * @return list with string representation of each connected member
+     */
+    public LinkedList<String> getConnectedMembers() {
+        LinkedList<String> members = new LinkedList<String>();
+        clusterInfo.getMembers().forEach(
+                member -> members.add(member.getSocketAddress().toString()));
+        return members;
+    }
 
-	/**
-	 * Method returns nodes information.
-	 * 
-	 * @return list with nodes DTO
-	 */
-	public LinkedList<NodeDTO> getNodes() {
-		LinkedList<NodeDTO> nodes = new LinkedList<NodeDTO>();
-		Collection<NodeInfo> data = clusterInfo.getNodes();
-		log.debug("Getting list of nodes: " + data);
-		data.forEach(node -> nodes.add(DTOFactory.createNode(node)));
-		return nodes;
-	}
-	
-	/**
-	 * Method returns cluster information.
-	 * 
-	 * @return ClusterDTO
-	 */
-	public ClusterDTO getCluster() {
-		return DTOFactory.createCluster(getClientName(), getMasterNode(), getConnectedMembers());
-	}
+    /**
+     * Method returns master node id.
+     * 
+     * @return id
+     */
+    public String getMasterNode() {
+        return clusterInfo.getMaster();
+    }
+
+    /**
+     * Method returns nodes information.
+     * 
+     * @return list with nodes DTO
+     */
+    public LinkedList<NodeDTO> getNodes() {
+        LinkedList<NodeDTO> nodes = new LinkedList<NodeDTO>();
+        Collection<NodeInfo> data = clusterInfo.getNodes();
+        log.debug("Getting list of nodes: " + data);
+        data.forEach(node -> {
+            NodeDTO nodeDTO = DTOFactory.createNode(node);
+            if (nodeDTO != null) {
+                nodes.add(nodeDTO);
+            }
+        });
+        return nodes;
+    }
+
+    /**
+     * Method returns cluster information.
+     * 
+     * @return ClusterDTO
+     */
+    public ClusterDTO getCluster() {
+        return DTOFactory.createCluster(getClientName(), getMasterNode(),
+                getConnectedMembers());
+    }
+
+    /**
+     * Check if specific service is properly initialized
+     * 
+     * @return true if is not initialized
+     */
+    public boolean isNotInitialized() {
+        return notInitialized;
+    }
 }
