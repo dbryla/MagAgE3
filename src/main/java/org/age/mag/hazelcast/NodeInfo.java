@@ -48,4 +48,9 @@ public final class NodeInfo {
     public String toString() {
     	return "Node " + id;
     }
+
+
+    public boolean isReady() {
+        return descriptor != null && id != null  && (status != null || satellite);
+    }
 }

@@ -36,6 +36,7 @@ final class EventsObserver {
     }
 
     public static void start(HazelcastInstance client) {
+        log.info("Start getting data from hazelcast.");
         EventsObserver.client = client;
         ClusterManager.createCluster(client.getName());
         collectInitalData();
@@ -57,6 +58,7 @@ final class EventsObserver {
 
         Collection<DistributedObject> instances = client.getDistributedObjects();
         for (DistributedObject instance : instances) {
+            log.info(instance.toString());
             switch (instance.getServiceName()) {
             case "hz:impl:mapService":
                 switch (((IMap<?, ?>) instance).getName()) {
@@ -95,7 +97,6 @@ final class EventsObserver {
             default:
                 log.info("Received unknown distributed object: " + instance.getServiceName());
             }
-
         }
     }
 }

@@ -23,7 +23,7 @@ EntryEvictedListener, EntryRemovedListener, EntryMergedListener, EntryUpdatedLis
     @Override
     public void entryUpdated(EntryEvent event) {
         Status newStatus = (Status) event.getValue();
-        if (!((Status) event.getOldValue()).errors().equals(newStatus.errors())) {
+        if (((Status) event.getOldValue()).errors().size() != newStatus.errors().size()) {
             ClusterManager.addNodeStatus((String) event.getKey(), newStatus);
             log.info("Node status changed to: " + newStatus);
         }

@@ -9,6 +9,7 @@ import org.age.mag.console.CommandInstance;
 import org.age.mag.console.ConsoleService;
 import org.age.mag.console.Execution;
 import org.age.mag.console.OutputWriter;
+import org.age.mag.hazelcast.ClusterNotInitializedException;
 import org.age.mag.hazelcast.ClusterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class ManagmentController {
 
-	private final Logger log = LoggerFactory
+	private static final String ERROR_MSG = "Start cluster before using client.";
+    private final Logger log = LoggerFactory
 			.getLogger(ManagmentController.class);
 	private ClusterService clusterService = new ClusterService();
 	private ConsoleService consoleService = new ConsoleService();
@@ -35,10 +37,15 @@ public class ManagmentController {
 		    if (clusterService.isNotInitialized()) {
 		        clusterService = new ClusterService();
 		    }
-			addMainAttributes(model);
-			model.addAttribute("cmd", new CommandInstance());
+			try {
+                addMainAttributes(model);
+                model.addAttribute("cmd", new CommandInstance());
+            } catch (ClusterNotInitializedException e) {
+                log.error(e.getMessage());
+                model.addAttribute("error", ERROR_MSG);
+            }
 		} else {
-			model.addAttribute("error", "Start cluster before using client.");
+			model.addAttribute("error", ERROR_MSG);
 		}
 		return "index";
 	}
@@ -47,13 +54,17 @@ public class ManagmentController {
 	public String command(@ModelAttribute("cmd") CommandInstance command,
 			Model model) {
 		if (guard.isConnected()) {
-			addMainAttributes(model);
-			model.addAttribute("cmd", command);
-			model.addAttribute("operations", getOperations(command));
-			model.addAttribute("options", getOptions(command));
-
+			try {
+                addMainAttributes(model);
+                model.addAttribute("cmd", command);
+                model.addAttribute("operations", getOperations(command));
+                model.addAttribute("options", getOptions(command));
+            } catch (ClusterNotInitializedException e) {
+                log.error(e.getMessage());
+                model.addAttribute("error", ERROR_MSG);
+            }
 		} else {
-			model.addAttribute("error", "Start cluster before using client.");
+			model.addAttribute("error", ERROR_MSG);
 		}
 		return "index";
 	}
@@ -75,7 +86,7 @@ public class ManagmentController {
 				log.error(e.getMessage());
 			}
 		} else {
-			model.addAttribute("error", "Start cluster before using client.");
+			model.addAttribute("error", ERROR_MSG);
 		}
 
 		return "index";
@@ -91,7 +102,7 @@ public class ManagmentController {
 			model.addAttribute("execution", execution);
 			return "execute";
 		}else{
-			model.addAttribute("error", "Start cluster before using client.");
+			model.addAttribute("error", ERROR_MSG);
 			return "index";
 		}	
 			
@@ -122,7 +133,7 @@ public class ManagmentController {
 
 	}
 
-	private void addMainAttributes(Model model) {
+	private void addMainAttributes(Model model) throws ClusterNotInitializedException {
 		model.addAttribute("cluster", clusterService.getCluster());
 		model.addAttribute("nodes", clusterService.getNodes());
 		model.addAttribute("commands", consoleService.getCommandList());

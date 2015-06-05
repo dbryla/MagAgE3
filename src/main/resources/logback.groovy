@@ -39,32 +39,8 @@ appender("SERVER", FileAppender) {
   }
 }
 
-appender("THYMELEAF", FileAppender) {
-  file = "log/thymeleaf.log"
-  append = false
-  encoder(PatternLayoutEncoder) {
-  	pattern = "%d{HH:mm:ss.SSS} %-5level %logger{30} - %msg%n"
-  }
-}
-
-appender("HAZELCAST", FileAppender) {
-  file = "log/hazelcast.log"
-  append = false
-  encoder(PatternLayoutEncoder) {
-  	pattern = "%d{HH:mm:ss.SSS} %-5level %logger{30} - %msg%n"
-  }
-}
-
-appender("SPRING", FileAppender) {
-  file = "log/spring.log"
-  append = false
-  encoder(PatternLayoutEncoder) {
-  	pattern = "%d{HH:mm:ss.SSS} %-5level %logger{30} - %msg%n"
-  }
-}
-
-appender("AGE", FileAppender) {
-  file = "log/age.log"
+appender("ALL", FileAppender) {
+  file = "log/all.log"
   append = false
   encoder(PatternLayoutEncoder) {
   	pattern = "%d{HH:mm:ss.SSS} %-5level %logger{30} - %msg%n"
@@ -73,10 +49,10 @@ appender("AGE", FileAppender) {
 
 
 root(ALL, ["STDOUT"])
-logger("org.thymeleaf", ALL, ["THYMELEAF", "ERROR"], false)
-logger("com.hazelcast", ALL, ["HAZELCAST", "ERROR"], false)
-logger("org.age", ALL, ["AGE", "ERROR"], false)
-logger("org.springframework", ALL, ["SPRING", "ERROR"], false)
-logger("org.age.mag", ALL, ["SERVER", "ERROR"])
+logger("org.thymeleaf", ALL, ["ALL", "ERROR"], false)
+logger("com.hazelcast", ALL, ["ALL", "ERROR"], false)
+logger("org.age", ALL, ["ALL", "ERROR"], false)
+logger("org.springframework", ALL, ["ALL", "ERROR"], false)
+logger("org.age.mag", ALL, ["SERVER", "ERROR", "STDOUT"])
 logger("org.age.mag.hazelcast.listeners", ALL, ["LISTENER", "ERROR"], false)
 

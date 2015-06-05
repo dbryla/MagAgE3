@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.jgrapht.graph.UnmodifiableDirectedGraph;
 
@@ -60,9 +61,9 @@ final class ClusterInfo {
 		nodes.remove(id);
 	}
 	
-	Collection<NodeInfo> getNodes() {
-		return Collections.unmodifiableCollection(nodes.values());
-	}
+    Collection<NodeInfo> getNodes() {
+        return new CopyOnWriteArrayList<NodeInfo>(nodes.values());
+    }
 
 	void setTopologyType(String type) {
 		topologyType = type;

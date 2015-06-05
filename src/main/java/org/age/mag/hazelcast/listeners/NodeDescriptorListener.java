@@ -42,7 +42,7 @@ public class NodeDescriptorListener implements MapClearedListener,
 	@Override
 	public void entryEvicted(EntryEvent event) {
 		log.info(event.toString());
-
+		ClusterManager.removeNode((String) event.getKey());
 	}
 
 	@Override

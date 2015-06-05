@@ -11,7 +11,9 @@ public class ServerInit {
 	private static final Logger log = LoggerFactory.getLogger(ServerInit.class);
 
 	public static void main(String[] args) {
+	    log.debug("Connecting...");
 		Connector.getInstance().connect();
+		log.debug("Running application.");
 		SpringApplication.run(ServerInit.class, args);
 	}
 

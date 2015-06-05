@@ -29,8 +29,12 @@ public final class ClusterService {
     /**
      * 
      * @return connected client name
+     * @throws ClusterNotInitializedException when cluster isn't initialized
      */
-    public String getClientName() {
+    public String getClientName() throws ClusterNotInitializedException {
+        if (notInitialized) {
+            throw new ClusterNotInitializedException();
+        }
         return ClusterManager.getName();
     }
 
@@ -38,8 +42,12 @@ public final class ClusterService {
      * Method returns connected members to a cluster.
      * 
      * @return list with string representation of each connected member
+     * @throws ClusterNotInitializedException when cluster isn't initialized
      */
-    public LinkedList<String> getConnectedMembers() {
+    public LinkedList<String> getConnectedMembers() throws ClusterNotInitializedException {
+        if (notInitialized) {
+            throw new ClusterNotInitializedException();
+        }
         LinkedList<String> members = new LinkedList<String>();
         clusterInfo.getMembers().forEach(
                 member -> members.add(member.getSocketAddress().toString()));
@@ -50,8 +58,12 @@ public final class ClusterService {
      * Method returns master node id.
      * 
      * @return id
+     * @throws ClusterNotInitializedException when cluster isn't initialized
      */
-    public String getMasterNode() {
+    public String getMasterNode() throws ClusterNotInitializedException {
+        if (notInitialized) {
+            throw new ClusterNotInitializedException();
+        }
         return clusterInfo.getMaster();
     }
 
@@ -59,17 +71,23 @@ public final class ClusterService {
      * Method returns nodes information.
      * 
      * @return list with nodes DTO
+     * @throws ClusterNotInitializedException when cluster isn't initialized
      */
-    public LinkedList<NodeDTO> getNodes() {
+    public LinkedList<NodeDTO> getNodes() throws ClusterNotInitializedException {
+        if (notInitialized) {
+            throw new ClusterNotInitializedException();
+        }
         LinkedList<NodeDTO> nodes = new LinkedList<NodeDTO>();
         Collection<NodeInfo> data = clusterInfo.getNodes();
         log.debug("Getting list of nodes: " + data);
-        data.forEach(node -> {
-            NodeDTO nodeDTO = DTOFactory.createNode(node);
-            if (nodeDTO != null) {
-                nodes.add(nodeDTO);
-            }
-        });
+        synchronized (data) {
+            data.stream().filter(node -> node.isReady()).forEach(node -> {
+                NodeDTO nodeDTO = DTOFactory.createNode(node);
+                if (nodeDTO != null) {
+                    nodes.add(nodeDTO);
+                }
+            });
+        }
         return nodes;
     }
 
@@ -77,8 +95,12 @@ public final class ClusterService {
      * Method returns cluster information.
      * 
      * @return ClusterDTO
+     * @throws ClusterNotInitializedException when cluster isn't initialized
      */
-    public ClusterDTO getCluster() {
+    public ClusterDTO getCluster() throws ClusterNotInitializedException {
+        if (notInitialized) {
+            throw new ClusterNotInitializedException();
+        }
         return DTOFactory.createCluster(getClientName(), getMasterNode(),
                 getConnectedMembers());
     }
