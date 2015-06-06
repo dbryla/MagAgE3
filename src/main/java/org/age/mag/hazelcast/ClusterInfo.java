@@ -80,7 +80,9 @@ final class ClusterInfo {
 	}
 
 	void setMaster(String id) {
-		this.master = id;
+        synchronized (master) {
+            this.master = id;
+        }
 	}
 	
 	@Override
