@@ -58,6 +58,11 @@ final class ClusterInfo {
 	}
 
 	void removeNode(String id) {
+        synchronized (master) {
+            if (master.equals(id)) {
+                master = null;
+            }
+        }
 		nodes.remove(id);
 	}
 	
@@ -76,6 +81,11 @@ final class ClusterInfo {
 
 	void setMaster(String id) {
 		this.master = id;
+	}
+	
+	@Override
+	public String toString() {
+	    return "Cluster (" + nodes.values().toString() + ")";
 	}
 
 }

@@ -2,6 +2,7 @@ package org.age.mag.hazelcast.listeners;
 
 import org.age.mag.hazelcast.ClusterManager;
 import org.age.services.status.Status;
+import org.age.services.worker.internal.ComputationState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

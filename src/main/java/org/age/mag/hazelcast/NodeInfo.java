@@ -7,7 +7,7 @@ import org.age.services.worker.internal.ComputationState;
 public final class NodeInfo {
 
     String id;
-	boolean satellite;
+	boolean satellite = false;
 	
 	public NodeInfo(String id, boolean isSatellite) {
 		this.id = id;
@@ -51,6 +51,6 @@ public final class NodeInfo {
 
 
     public boolean isReady() {
-        return descriptor != null && id != null  && (status != null || satellite);
+        return descriptor != null && id != null  && ((status != null && workerState != null)|| satellite);
     }
 }

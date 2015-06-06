@@ -41,6 +41,7 @@ final class EventsObserver {
         ClusterManager.createCluster(client.getName());
         collectInitalData();
         addAnotherListeners();
+        
     }
 
     private static void addAnotherListeners() {
@@ -58,9 +59,9 @@ final class EventsObserver {
 
         Collection<DistributedObject> instances = client.getDistributedObjects();
         for (DistributedObject instance : instances) {
-            log.info(instance.toString());
             switch (instance.getServiceName()) {
             case "hz:impl:mapService":
+                ((IMap<?, ?>) instance).entrySet().forEach(x -> log.info("{} - {}", ((IMap<?, ?>) instance).getName(), x.toString()));
                 switch (((IMap<?, ?>) instance).getName()) {
                 case "worker/state":
                     ((IMap<String, ComputationState>) instance).entrySet().forEach(
@@ -71,7 +72,7 @@ final class EventsObserver {
                     ((IMap<String, Status>) instance).entrySet().forEach(
                             entry -> ClusterManager.addNodeStatus(entry.getKey(), entry.getValue()));
                     ((IMap<String, Status>) instance).addEntryListener(new NodeStatusListener(), true);
-                    break; 
+                    break;
                 case "discovery/members":
                     ((IMap<String, NodeDescriptor>) instance).entrySet().forEach(
                             entry -> ClusterManager.addNodeDescriptor(entry.getKey(), entry.getValue()));
@@ -92,6 +93,7 @@ final class EventsObserver {
                 ((ITopic<?>) instance).addMessageListener(new MessageListenerImpl());
                 break;
             case "hz:impl:replicatedMapService":
+                ((ReplicatedMap<?, ?>) instance).entrySet().forEach(x -> log.info("{} - {}", ((ReplicatedMap<?, ?>) instance).getName(), x.toString()));
                 ((ReplicatedMap<?, ?>) instance).addEntryListener(new WorkerConfigListener());
                 break;
             default:

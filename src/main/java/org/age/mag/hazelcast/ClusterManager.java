@@ -38,6 +38,12 @@ public final class ClusterManager {
 
     public static void addNodeStatus(String id, Status status) {
 		NodeInfo node = clusterInfo.getNode(id);
+        // ugly way to change worker state to FAILED
+        if (status.errors().size() == 1
+                && status.errors().get(0).toString().contains("Some computation error")) { 
+            // FIXME: it probably should be changed in AgE3 not here
+            ClusterManager.addWorkerState(id, ComputationState.FAILED); 
+        }
 		node.status = status;
 		clusterInfo.addNode(node);
 	}

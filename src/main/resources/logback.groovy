@@ -2,10 +2,8 @@ import static ch.qos.logback.core.spi.FilterReply.ACCEPT
 import static ch.qos.logback.core.spi.FilterReply.DENY
 
 appender("STDOUT", ConsoleAppender) {
-  filter(ch.qos.logback.classic.filter.LevelFilter) {
-  	level = INFO
-  	onMatch = DENY
-  	onMismatch = ACCEPT
+  filter(ch.qos.logback.classic.filter.ThresholdFilter) {
+    level = DEBUG
   }
   encoder(PatternLayoutEncoder) {
     pattern = "%-5level %logger{30} - %msg%n"
@@ -48,11 +46,8 @@ appender("ALL", FileAppender) {
 }
 
 
-root(ALL, ["STDOUT"])
-logger("org.thymeleaf", ALL, ["ALL", "ERROR"], false)
-logger("com.hazelcast", ALL, ["ALL", "ERROR"], false)
-logger("org.age", ALL, ["ALL", "ERROR"], false)
-logger("org.springframework", ALL, ["ALL", "ERROR"], false)
+root(ALL, ["ALL", "ERROR"])
 logger("org.age.mag", ALL, ["SERVER", "ERROR", "STDOUT"])
 logger("org.age.mag.hazelcast.listeners", ALL, ["LISTENER", "ERROR"], false)
+
 
