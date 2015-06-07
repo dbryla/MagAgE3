@@ -19,7 +19,7 @@ final class ClusterInfo {
 	private String topologyType;
 	@SuppressWarnings("rawtypes")
 	private UnmodifiableDirectedGraph graph;
-	private String master;
+	private String master = "";
 
 	String getMaster() {
 		return master;
@@ -60,7 +60,7 @@ final class ClusterInfo {
 	void removeNode(String id) {
         synchronized (master) {
             if (master.equals(id)) {
-                master = null;
+                master = "";
             }
         }
 		nodes.remove(id);

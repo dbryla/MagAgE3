@@ -12,8 +12,7 @@ public class MessageListenerImpl implements MessageListener {
 
     @Override
     public void onMessage(Message message) {
-        log.info(message.toString() + " " + message.getMessageObject().toString());
-
+        log.info(message.getSource() + " " + message.getMessageObject().toString());
     }
 
 }

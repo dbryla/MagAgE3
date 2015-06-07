@@ -46,7 +46,7 @@ public final class NodeInfo {
 
 	@Override
     public String toString() {
-    	return "Node " + id;
+    	return  (satellite ? "Satellite " :"Node ") + id;
     }
 
 

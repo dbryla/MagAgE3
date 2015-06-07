@@ -48,6 +48,6 @@ appender("ALL", FileAppender) {
 
 root(ALL, ["ALL", "ERROR"])
 logger("org.age.mag", ALL, ["SERVER", "ERROR", "STDOUT"])
-logger("org.age.mag.hazelcast.listeners", ALL, ["LISTENER", "ERROR"], false)
+logger("org.age.mag.hazelcast.listeners", INFO, ["LISTENER", "ERROR"], false)
 
 
