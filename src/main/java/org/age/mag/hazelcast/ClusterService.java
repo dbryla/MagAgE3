@@ -113,4 +113,16 @@ public final class ClusterService {
     public boolean isNotInitialized() {
         return notInitialized;
     }
+    /**
+     * Method returns Graph information in JSON.
+     * 
+     * @return String
+     * @throws ClusterNotInitializedException when cluster isn't initialized
+     */
+    public String getGraph() throws ClusterNotInitializedException {
+        if (notInitialized) {
+            throw new ClusterNotInitializedException();
+        }
+        return DTOFactory.convertGraphToJson(clusterInfo.getTopologyGraph());
+    }
 }

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.UnmodifiableDirectedGraph;
 
 import com.hazelcast.core.Member;
@@ -17,8 +18,7 @@ final class ClusterInfo {
 	private ArrayList<Member> members;
 	private HashMap<String, NodeInfo> nodes = new HashMap<String, NodeInfo>();
 	private String topologyType;
-	@SuppressWarnings("rawtypes")
-	private UnmodifiableDirectedGraph graph;
+	private UnmodifiableDirectedGraph<String, DefaultEdge> graph;
 	private String master;
 
 	String getMaster() {
@@ -69,13 +69,16 @@ final class ClusterInfo {
 		topologyType = type;
 	}
 
-	@SuppressWarnings("rawtypes")
-	void setTopologyGraph(UnmodifiableDirectedGraph unmodifiableDirectedGraph) {
+	void setTopologyGraph(UnmodifiableDirectedGraph<String, DefaultEdge> unmodifiableDirectedGraph) {
 		this.graph = unmodifiableDirectedGraph;
 	}
 
 	void setMaster(String id) {
 		this.master = id;
+	}
+	
+	public UnmodifiableDirectedGraph<String, DefaultEdge> getTopologyGraph() {
+		return graph;
 	}
 
 }

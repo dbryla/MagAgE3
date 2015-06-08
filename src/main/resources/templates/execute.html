@@ -14,11 +14,8 @@
 		</form>
 		<h3>Executed command:</h3>
 		<div>
-			 
-			<b th:text="${execution.command.name}"></b>
-			<b th:if="${execution.command.operation}" th:text="${execution.command.operation}"></b>
-			<b th:if="${execution.command.option}" th:text="${execution.command.option}"></b>
-			<b th:if="${execution.command.optionValue}" th:text="${execution.command.optionValue}"></b>
+			<b th:text="${execution.command.getFullCommand()}"></b>
+			
 		</div>		
 		<h3>Output:</h3>
 		<p th:each="output : ${execution.output.getOutput()}" th:text="${output}"></p>

@@ -6,6 +6,7 @@ import org.age.services.identity.NodeDescriptor;
 import org.age.services.identity.NodeType;
 import org.age.services.status.Status;
 import org.age.services.worker.internal.ComputationState;
+import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.UnmodifiableDirectedGraph;
 
 import com.hazelcast.core.Member;
@@ -56,8 +57,7 @@ public final class ClusterManager {
         clusterInfo.setMaster(id);
     }
 
-    @SuppressWarnings("rawtypes")
-    public static void setTopologyGraph(UnmodifiableDirectedGraph unmodifiableDirectedGraph) {
+    public static void setTopologyGraph(UnmodifiableDirectedGraph<String, DefaultEdge> unmodifiableDirectedGraph) {
         clusterInfo.setTopologyGraph(unmodifiableDirectedGraph);
     }
 

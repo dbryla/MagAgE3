@@ -137,6 +137,7 @@ public class ManagmentController {
 		model.addAttribute("cluster", clusterService.getCluster());
 		model.addAttribute("nodes", clusterService.getNodes());
 		model.addAttribute("commands", consoleService.getCommandList());
+		model.addAttribute("graph", clusterService.getGraph());
 	}
 
 }

@@ -1,7 +1,6 @@
 package org.age.mag.console;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
