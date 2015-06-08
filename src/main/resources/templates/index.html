@@ -81,14 +81,12 @@
 	<script th:inline="javascript">
 /*<![CDATA[*/
     var dataJson = [[${graph}]];
-    console.log(dataJson);
     var json = JSON.parse(dataJson);
     s = new sigma({ 
         graph: json,
         container: 'container',
         settings: {
-            defaultNodeColor: '#C9E609',
-            defaultEdgeColor: '#3C3C3C'
+            defaultNodeColor: '#C9E609'
         }
 });
 /*]]>*/
