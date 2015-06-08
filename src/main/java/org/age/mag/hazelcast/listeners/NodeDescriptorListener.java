@@ -23,7 +23,7 @@ public class NodeDescriptorListener implements MapClearedListener,
 
 	@Override
 	public void entryUpdated(EntryEvent event) {
-	    log.info(event.toString());
+	    log.debug(event.toString());
 	}
 
 	@Override
@@ -32,24 +32,28 @@ public class NodeDescriptorListener implements MapClearedListener,
 
 	}
 
-	@Override
-	public void entryRemoved(EntryEvent event) {
-		log.info(event.toString());
-		ClusterManager.removeNode((String) event.getKey());
+    @Override
+    public void entryRemoved(EntryEvent event) {
+        removeNode((String) event.getKey());
+    }
 
-	}
+    @Override
+    public void entryEvicted(EntryEvent event) {
+        removeNode((String) event.getKey());
+    }
 
-	@Override
-	public void entryEvicted(EntryEvent event) {
-		log.info(event.toString());
-		ClusterManager.removeNode((String) event.getKey());
-	}
+    private void removeNode(String id) {
+        log.info("Removed node {}.", id);
+        ClusterManager.removeNode(id);
+    }
 
-	@Override
-	public void entryAdded(EntryEvent event) {
-		log.info(event.toString());
-		ClusterManager.addNodeDescriptor((String)event.getKey(), (NodeDescriptor) event.getValue());
-	}
+    @Override
+    public void entryAdded(EntryEvent event) {
+        String key = (String) event.getKey();
+        NodeDescriptor value = (NodeDescriptor) event.getValue();
+        log.info("Added description for node {} : {}.", key, value);
+        ClusterManager.addNodeDescriptor(key, value);
+    }
 
 	@Override
 	public void mapEvicted(MapEvent event) {

@@ -27,7 +27,7 @@ import com.hazelcast.core.ITopic;
 import com.hazelcast.core.Member;
 import com.hazelcast.core.ReplicatedMap;
 
-final class EventsObserver {
+public final class EventsObserver {
 
     private static final Logger log = LoggerFactory.getLogger(EventsObserver.class);
     private static HazelcastInstance client;
@@ -41,6 +41,7 @@ final class EventsObserver {
         ClusterManager.createCluster(client.getName());
         collectInitalData();
         addAnotherListeners();
+        
     }
 
     private static void addAnotherListeners() {
@@ -50,7 +51,7 @@ final class EventsObserver {
         client.addDistributedObjectListener(new DistributedObjectListenerImpl());
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+
     private static void collectInitalData() {
         Set<Member> members = client.getCluster().getMembers();
         log.debug(members.toString());
@@ -58,45 +59,55 @@ final class EventsObserver {
 
         Collection<DistributedObject> instances = client.getDistributedObjects();
         for (DistributedObject instance : instances) {
-            log.info(instance.toString());
-            switch (instance.getServiceName()) {
-            case "hz:impl:mapService":
-                switch (((IMap<?, ?>) instance).getName()) {
-                case "worker/state":
-                    ((IMap<String, ComputationState>) instance).entrySet().forEach(
-                            entry -> ClusterManager.addWorkerState(entry.getKey(), entry.getValue()));
-                    ((IMap<String, ComputationState>) instance).addEntryListener(new WorkerStateListener(), true);
-                    break;
-                case "status/map":
-                    ((IMap<String, Status>) instance).entrySet().forEach(
-                            entry -> ClusterManager.addNodeStatus(entry.getKey(), entry.getValue()));
-                    ((IMap<String, Status>) instance).addEntryListener(new NodeStatusListener(), true);
-                    break; 
-                case "discovery/members":
-                    ((IMap<String, NodeDescriptor>) instance).entrySet().forEach(
-                            entry -> ClusterManager.addNodeDescriptor(entry.getKey(), entry.getValue()));
-                    ((IMap<String, Status>) instance).addEntryListener(new NodeDescriptorListener(), true);
-                    break;
-                case "topology/config":
-                    ClusterManager.setMaster(((IMap<String, String>) instance).get("master"));
-                    ClusterManager.setTopologyGraph(((IMap<String, UnmodifiableDirectedGraph>) instance)
-                            .get("topologyGraph"));
-                    ClusterManager.setTopologyType(((IMap<String, String>) instance).get("topologyType"));
-                    ((IMap<String, ?>) instance).addEntryListener(new TopologyConfigListener(), true);
-                    break;
-                default:
-                    log.info("Received unknown map: " + ((IMap<?, ?>) instance).getName());
-                }
+            handleInstance(instance);
+        }
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public static void handleInstance(DistributedObject instance) {
+
+        switch (instance.getServiceName()) {
+        case "hz:impl:mapService":
+            ((IMap<?, ?>) instance).entrySet().forEach(x -> log.info("{} - {}", ((IMap<?, ?>) instance).getName(), x.toString()));
+            switch (((IMap<?, ?>) instance).getName()) {
+            case "worker/state":
+                ((IMap<String, ComputationState>) instance).entrySet().forEach(
+                        entry -> ClusterManager.addWorkerState(entry.getKey(), entry.getValue()));
+                ((IMap<String, ComputationState>) instance).addEntryListener(new WorkerStateListener(), true);
                 break;
-            case "hz:impl:topicService":
-                ((ITopic<?>) instance).addMessageListener(new MessageListenerImpl());
+            case "status/map":
+                ((IMap<String, Status>) instance).entrySet().forEach(
+                        entry -> ClusterManager.addNodeStatus(entry.getKey(), entry.getValue()));
+                ((IMap<String, Status>) instance).addEntryListener(new NodeStatusListener(), true);
                 break;
-            case "hz:impl:replicatedMapService":
-                ((ReplicatedMap<?, ?>) instance).addEntryListener(new WorkerConfigListener());
+            case "discovery/members":
+                ((IMap<String, NodeDescriptor>) instance).entrySet().forEach(
+                        entry -> ClusterManager.addNodeDescriptor(entry.getKey(), entry.getValue()));
+                ((IMap<String, Status>) instance).addEntryListener(new NodeDescriptorListener(), true);
+                break;
+            case "topology/config":
+                ClusterManager.setMaster(((IMap<String, String>) instance).get("master"));
+                ClusterManager.setTopologyGraph(((IMap<String, UnmodifiableDirectedGraph>) instance)
+                        .get("topologyGraph"));
+                ClusterManager.setTopologyType(((IMap<String, String>) instance).get("topologyType"));
+                ((IMap<String, ?>) instance).addEntryListener(new TopologyConfigListener(), true);
                 break;
             default:
-                log.info("Received unknown distributed object: " + instance.getServiceName());
+                log.info("Received unknown map: " + ((IMap<?, ?>) instance).getName());
             }
+            break;
+        case "hz:impl:topicService":
+            log.info("Registered listener for channel: {}", ((ITopic<?>) instance).getName());
+            ((ITopic<?>) instance).addMessageListener(new MessageListenerImpl());
+            break;
+        case "hz:impl:replicatedMapService":
+            ((ReplicatedMap<?, ?>) instance).entrySet().forEach(x -> log.info("{} - {}", ((ReplicatedMap<?, ?>) instance).getName(), x.toString()));
+            ((ReplicatedMap<?, ?>) instance).addEntryListener(new WorkerConfigListener());
+            break;
+        default:
+            log.info("Received unknown distributed object: " + instance.getServiceName());
         }
+    
+        
     }
 }

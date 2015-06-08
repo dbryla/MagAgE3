@@ -19,7 +19,8 @@ final class ClusterInfo {
 	private HashMap<String, NodeInfo> nodes = new HashMap<String, NodeInfo>();
 	private String topologyType;
 	private UnmodifiableDirectedGraph<String, DefaultEdge> graph;
-	private String master;
+	private String master = "";
+
 
 	String getMaster() {
 		return master;
@@ -58,6 +59,11 @@ final class ClusterInfo {
 	}
 
 	void removeNode(String id) {
+        synchronized (master) {
+            if (master.equals(id)) {
+                master = "";
+            }
+        }
 		nodes.remove(id);
 	}
 	
@@ -74,7 +80,14 @@ final class ClusterInfo {
 	}
 
 	void setMaster(String id) {
-		this.master = id;
+        synchronized (master) {
+            this.master = id;
+        }
+	}
+	
+	@Override
+	public String toString() {
+	    return "Cluster (" + nodes.values().toString() + ")";
 	}
 	
 	public UnmodifiableDirectedGraph<String, DefaultEdge> getTopologyGraph() {

@@ -45,12 +45,11 @@ public class WorkerStateListener implements MapClearedListener,
 
 	}
 
-	@Override
-	public void entryAdded(EntryEvent event) {
-		log.info(event.toString());
-		ClusterManager.addWorkerState((String) event.getKey(),
-				(ComputationState) event.getValue());
-	}
+    @Override
+    public void entryAdded(EntryEvent event) {
+        log.info("{} {} {}", event.getEventType(), event.getValue(), event.getKey());
+        ClusterManager.addWorkerState((String) event.getKey(), (ComputationState) event.getValue());
+    }
 
 	@Override
 	public void mapEvicted(MapEvent event) {

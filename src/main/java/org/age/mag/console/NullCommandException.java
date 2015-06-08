@@ -1,6 +1,8 @@
 package org.age.mag.console;
 
+@SuppressWarnings("serial")
 public class NullCommandException extends Exception {
-	private String detailMessage = "Command name can not be null.";
+	@SuppressWarnings("unused")
+    private String detailMessage = "Command name can not be null.";
 
 }

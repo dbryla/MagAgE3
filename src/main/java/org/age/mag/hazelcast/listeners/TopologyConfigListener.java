@@ -22,14 +22,17 @@ public class TopologyConfigListener implements MapClearedListener, MapEvictedLis
 
     @Override
     public void entryUpdated(EntryEvent event) {
-        log.info(event.toString());
         if (!(event.getOldValue()).equals(event.getValue())) {
             switch ((String) event.getKey()) {
             case "master":
-                ClusterManager.setMaster((String) event.getValue());
+                String master = (String) event.getValue();
+                log.info("Setting new master node {}", master);
+                ClusterManager.setMaster(master);
                 break;
             case "topologyGraph":
-                ClusterManager.setTopologyGraph((UnmodifiableDirectedGraph) event.getValue());
+                UnmodifiableDirectedGraph graph = (UnmodifiableDirectedGraph) event.getValue();
+                log.info("Setting new graph {}", graph);
+                ClusterManager.setTopologyGraph(graph);
                 break;
             default:
                 log.debug("If this ever happens, we'll need to implement next case.");
