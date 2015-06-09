@@ -15,6 +15,11 @@ import com.hazelcast.map.listener.EntryUpdatedListener;
 import com.hazelcast.map.listener.MapClearedListener;
 import com.hazelcast.map.listener.MapEvictedListener;
 
+
+/**
+ * Handles information about node descriptor changes passing it to ClusterManager. 
+ *
+ */
 @SuppressWarnings("rawtypes")
 public class NodeDescriptorListener implements MapClearedListener,
 		MapEvictedListener, EntryAddedListener, EntryEvictedListener,

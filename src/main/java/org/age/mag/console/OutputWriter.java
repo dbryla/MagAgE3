@@ -14,11 +14,11 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class OutputWriter extends PrintWriter {
-	private final Logger log = LoggerFactory
-			.getLogger(OutputWriter.class);
+    private final Logger log = LoggerFactory.getLogger(OutputWriter.class);
     private LinkedList<String> outputList;
 
     public OutputWriter() throws FileNotFoundException {
+        // FIXME: it doesn't log to this file in real
         super(new File("log", "console.log"));
         outputList = new LinkedList<String>();
     }
@@ -30,6 +30,11 @@ public class OutputWriter extends PrintWriter {
         outputList.add(x);
     }
 
+    /**
+     * Returns output of command
+     * 
+     * @return list with lines of output
+     */
     public LinkedList<String> getOutput() {
         return outputList;
     }

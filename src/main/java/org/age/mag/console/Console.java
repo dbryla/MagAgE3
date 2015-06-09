@@ -17,6 +17,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.beust.jcommander.JCommander;
 import com.google.common.collect.Iterables;
 
+/**
+ * Class connecting with AgE3 console and initializing spring context.
+ *
+ */
 public final class Console {
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -27,7 +31,7 @@ public final class Console {
 	private static CommandIntrospector introspector = applicationContext
 			.getBean(CommandIntrospector.class);
 
-	public Collection<Command> listOfAvailableCommands() {
+	Collection<Command> listOfAvailableCommands() {
 		final JCommander commander = new JCommander();
 		final HashMap<String, Command> commands = new HashMap<String, Command>();
 		applicationContext.getBeansOfType(BaseCommand.class).values().stream()
@@ -43,7 +47,7 @@ public final class Console {
 		return Collections.unmodifiableCollection(commands.values());
 	}
 
-	public void executeCommand(CommandInstance commandInstance,
+	void executeCommand(CommandInstance commandInstance,
 			OutputWriter outputWriter) throws IOException {
 		try {
 			log.info("Executing {}", commandInstance.getFullCommand());

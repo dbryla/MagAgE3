@@ -15,6 +15,11 @@ import com.hazelcast.map.listener.EntryUpdatedListener;
 import com.hazelcast.map.listener.MapClearedListener;
 import com.hazelcast.map.listener.MapEvictedListener;
 
+/**
+ * Handles given events and updates node worker state by passing it to
+ * ClusterManager.
+ *
+ */
 @SuppressWarnings("rawtypes")
 public class WorkerStateListener implements MapClearedListener,
 		MapEvictedListener, EntryAddedListener, EntryEvictedListener,

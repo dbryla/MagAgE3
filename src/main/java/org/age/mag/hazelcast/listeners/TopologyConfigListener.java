@@ -15,6 +15,10 @@ import com.hazelcast.map.listener.EntryUpdatedListener;
 import com.hazelcast.map.listener.MapClearedListener;
 import com.hazelcast.map.listener.MapEvictedListener;
 
+/**
+ * Handles information about master, topology type and graph changes.
+ *
+ */
 @SuppressWarnings("rawtypes")
 public class TopologyConfigListener implements MapClearedListener, MapEvictedListener, EntryAddedListener,
         EntryEvictedListener, EntryRemovedListener, EntryMergedListener, EntryUpdatedListener {

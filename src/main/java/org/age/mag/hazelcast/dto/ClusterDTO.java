@@ -1,6 +1,10 @@
 package org.age.mag.hazelcast.dto;
 
-
+/**
+ * Simple data transfer object representing only essential information about
+ * cluster.
+ *
+ */
 public class ClusterDTO {
 
 	String masterNode;

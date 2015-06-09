@@ -20,41 +20,45 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+/**
+ * Spring Controller for passing information to view.
+ *
+ */
 @Controller
 public class ManagmentController {
 
-	private static final String ERROR_MSG = "Start cluster before using client.";
+    private static final String ERROR_MSG = "Start cluster before using client.";
     private final Logger log = LoggerFactory
-			.getLogger(ManagmentController.class);
-	private ClusterService clusterService = new ClusterService();
-	private ConsoleService consoleService = new ConsoleService();
-	private CommandHistory commandHistory = new CommandHistory();
-	private Guard guard = new Guard();
+            .getLogger(ManagmentController.class);
+    private ClusterService clusterService = new ClusterService();
+    private ConsoleService consoleService = new ConsoleService();
+    private CommandHistory commandHistory = new CommandHistory();
+    private Guard guard = new Guard();
 
-	@RequestMapping("/")
-	public String getHome(Model model) {
-		if (guard.isConnected()) {
-		    if (clusterService.isNotInitialized()) {
-		        clusterService = new ClusterService();
-		    }
-			try {
+    @RequestMapping("/")
+    public String getHome(Model model) {
+        if (guard.isConnected()) {
+            if (clusterService.isNotInitialized()) {
+                clusterService = new ClusterService();
+            }
+            try {
                 addMainAttributes(model);
                 model.addAttribute("cmd", new CommandInstance());
             } catch (ClusterNotInitializedException e) {
                 log.error(e.getMessage());
                 model.addAttribute("error", ERROR_MSG);
             }
-		} else {
-			model.addAttribute("error", ERROR_MSG);
-		}
-		return "index";
-	}
+        } else {
+            model.addAttribute("error", ERROR_MSG);
+        }
+        return "index";
+    }
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public String command(@ModelAttribute("cmd") CommandInstance command,
-			Model model) {
-		if (guard.isConnected()) {
-			try {
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public String command(@ModelAttribute("cmd") CommandInstance command,
+            Model model) {
+        if (guard.isConnected()) {
+            try {
                 addMainAttributes(model);
                 model.addAttribute("cmd", command);
                 model.addAttribute("operations", getOperations(command));
@@ -63,81 +67,81 @@ public class ManagmentController {
                 log.error(e.getMessage());
                 model.addAttribute("error", ERROR_MSG);
             }
-		} else {
-			model.addAttribute("error", ERROR_MSG);
-		}
-		return "index";
-	}
+        } else {
+            model.addAttribute("error", ERROR_MSG);
+        }
+        return "index";
+    }
 
-	@RequestMapping(value = "/execution", method = RequestMethod.POST)
-	public String execute(Model model,
-			@ModelAttribute("cmd") CommandInstance command) {
-		if (guard.isConnected()) {
-			OutputWriter outputWriter;
-			try {
-				outputWriter = new OutputWriter();
-				consoleService.executeCommand(command, outputWriter);
-				Execution execution = new Execution(command, outputWriter);
-				Integer taskId = commandHistory.save(execution);
-				log.debug("Redirecting to /execute/" + taskId.toString());
+    @RequestMapping(value = "/execution", method = RequestMethod.POST)
+    public String execute(Model model,
+            @ModelAttribute("cmd") CommandInstance command) {
+        if (guard.isConnected()) {
+            OutputWriter outputWriter;
+            try {
+                outputWriter = new OutputWriter();
+                consoleService.executeCommand(command, outputWriter);
+                Execution execution = new Execution(command, outputWriter);
+                Integer taskId = commandHistory.save(execution);
+                log.debug("Redirecting to /execute/" + taskId.toString());
 
-				return "redirect:/execution/" + taskId;
-			} catch (FileNotFoundException e) {
-				log.error(e.getMessage());
-			}
-		} else {
-			model.addAttribute("error", ERROR_MSG);
-		}
+                return "redirect:/execution/" + taskId;
+            } catch (FileNotFoundException e) {
+                log.error(e.getMessage());
+            }
+        } else {
+            model.addAttribute("error", ERROR_MSG);
+        }
 
-		return "index";
+        return "index";
 
-	}
+    }
 
-	@RequestMapping(value = "/execution/{taskId}")
-	public String executeTask(Model model, @PathVariable("taskId") String taskId) {
-		if (guard.isConnected()) {
-			log.debug("Task id: " + taskId);
-			Execution execution = commandHistory.getExecution(new Integer(
-					taskId));
-			model.addAttribute("execution", execution);
-			return "execute";
-		}else{
-			model.addAttribute("error", ERROR_MSG);
-			return "index";
-		}	
-			
-		
-	}
+    @RequestMapping(value = "/execution/{taskId}")
+    public String executeTask(Model model, @PathVariable("taskId") String taskId) {
+        if (guard.isConnected()) {
+            log.debug("Task id: " + taskId);
+            Execution execution = commandHistory.getExecution(new Integer(
+                    taskId));
+            model.addAttribute("execution", execution);
+            return "execute";
+        } else {
+            model.addAttribute("error", ERROR_MSG);
+            return "index";
+        }
 
-	private List<String> getOptions(CommandInstance command) {
-		try {
-			return consoleService.getCommandList().stream()
-					.filter(x -> x.getCmdName().equals(command.getName()))
-					.findAny().get().getOptions();
-		} catch (NoSuchElementException e) {
-			log.info("Command {} doesn't have any option.", command.getName());
-			return null;
-		}
-	}
+    }
 
-	private List<String> getOperations(CommandInstance command) {
-		try {
-			return consoleService.getCommandList().stream()
-					.filter(x -> x.getCmdName().equals(command.getName()))
-					.findAny().get().getOperations();
-		} catch (NoSuchElementException e) {
-			log.info("Command {} doesn't have any operation.",
-					command.getName());
-			return null;
-		}
+    private List<String> getOptions(CommandInstance command) {
+        try {
+            return consoleService.getCommandList().stream()
+                    .filter(x -> x.getCmdName().equals(command.getName()))
+                    .findAny().get().getOptions();
+        } catch (NoSuchElementException e) {
+            log.info("Command {} doesn't have any option.", command.getName());
+            return null;
+        }
+    }
 
-	}
+    private List<String> getOperations(CommandInstance command) {
+        try {
+            return consoleService.getCommandList().stream()
+                    .filter(x -> x.getCmdName().equals(command.getName()))
+                    .findAny().get().getOperations();
+        } catch (NoSuchElementException e) {
+            log.info("Command {} doesn't have any operation.",
+                    command.getName());
+            return null;
+        }
 
-	private void addMainAttributes(Model model) throws ClusterNotInitializedException {
-		model.addAttribute("cluster", clusterService.getCluster());
-		model.addAttribute("nodes", clusterService.getNodes());
-		model.addAttribute("commands", consoleService.getCommandList());
-		model.addAttribute("graph", clusterService.getGraph());
-	}
+    }
+
+    private void addMainAttributes(Model model)
+            throws ClusterNotInitializedException {
+        model.addAttribute("cluster", clusterService.getCluster());
+        model.addAttribute("nodes", clusterService.getNodes());
+        model.addAttribute("commands", consoleService.getCommandList());
+        model.addAttribute("graph", clusterService.getGraph());
+    }
 
 }

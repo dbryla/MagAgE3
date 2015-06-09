@@ -6,15 +6,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * Application starter.
+ *
+ */
 @SpringBootApplication
-public class ServerInit { 
-	private static final Logger log = LoggerFactory.getLogger(ServerInit.class);
+public class ServerInit {
+    private static final Logger log = LoggerFactory.getLogger(ServerInit.class);
 
-	public static void main(String[] args) {
-	    log.debug("Connecting...");
-		Connector.getInstance().connect();
-		log.debug("Running application.");
-		SpringApplication.run(ServerInit.class, args);
-	}
+    public static void main(String[] args) {
+        log.debug("Connecting...");
+        Connector.getInstance().connect();
+        log.debug("Running application.");
+        SpringApplication.run(ServerInit.class, args);
+    }
 
 }

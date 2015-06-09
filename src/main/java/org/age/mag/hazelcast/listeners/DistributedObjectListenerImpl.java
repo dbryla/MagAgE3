@@ -7,6 +7,10 @@ import org.slf4j.LoggerFactory;
 import com.hazelcast.core.DistributedObjectEvent;
 import com.hazelcast.core.DistributedObjectListener;
 
+/**
+ * Listener for distributed objects. Actually only handle new object creation.
+ *
+ */
 public class DistributedObjectListenerImpl implements DistributedObjectListener {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 

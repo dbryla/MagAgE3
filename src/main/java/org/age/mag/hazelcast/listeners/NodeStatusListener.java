@@ -15,6 +15,11 @@ import com.hazelcast.map.listener.EntryUpdatedListener;
 import com.hazelcast.map.listener.MapClearedListener;
 import com.hazelcast.map.listener.MapEvictedListener;
 
+
+/**
+ * Handles information about node status changes, passing it to ClusterManager.
+ *
+ */
 @SuppressWarnings("rawtypes")
 public class NodeStatusListener implements MapClearedListener, MapEvictedListener, EntryAddedListener,
 EntryEvictedListener, EntryRemovedListener, EntryMergedListener, EntryUpdatedListener {

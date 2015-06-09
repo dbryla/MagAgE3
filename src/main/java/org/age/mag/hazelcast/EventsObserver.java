@@ -27,6 +27,11 @@ import com.hazelcast.core.ITopic;
 import com.hazelcast.core.Member;
 import com.hazelcast.core.ReplicatedMap;
 
+/**
+ * Class for gathering information at instance startup and starting listeners
+ * for all available services
+ *
+ */
 public final class EventsObserver {
 
     private static final Logger log = LoggerFactory.getLogger(EventsObserver.class);
@@ -35,6 +40,15 @@ public final class EventsObserver {
     private EventsObserver() {
     }
 
+    /**
+     * Starts information gather. <br>
+     * 
+     * <b>NOTE:</b> This method should be called only once.
+     * Double execution of method can create duplicates of node information.
+     * 
+     * @param client
+     *            instance of hazelcast for which connector is connected
+     */
     public static void start(HazelcastInstance client) {
         log.info("Start getting data from hazelcast.");
         EventsObserver.client = client;
@@ -63,6 +77,12 @@ public final class EventsObserver {
         }
     }
 
+    /**
+     * Method which handles data from instance and starts needed listeners.
+     * 
+     * @param instance
+     *            of <code>DistributedObject</code>
+     */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public static void handleInstance(DistributedObject instance) {
 

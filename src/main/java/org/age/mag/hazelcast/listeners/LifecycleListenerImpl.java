@@ -6,6 +6,10 @@ import org.slf4j.LoggerFactory;
 import com.hazelcast.core.LifecycleEvent;
 import com.hazelcast.core.LifecycleListener;
 
+/**
+ * Logs information about changes in lifecycle service.
+ *
+ */
 public class LifecycleListenerImpl implements LifecycleListener {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	

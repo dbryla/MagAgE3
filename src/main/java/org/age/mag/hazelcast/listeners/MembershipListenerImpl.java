@@ -9,6 +9,11 @@ import com.hazelcast.core.MemberAttributeEvent;
 import com.hazelcast.core.MembershipEvent;
 import com.hazelcast.core.MembershipListener;
 
+/**
+ * Listens for members addition or deletion, passing this information to cluster
+ * manager to update list of connected members.
+ *
+ */
 public class MembershipListenerImpl implements MembershipListener {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 

@@ -8,6 +8,10 @@ import com.hazelcast.core.EntryListener;
 import com.hazelcast.core.MapEvent;
 
 @SuppressWarnings("rawtypes")
+/**
+ * Logs information about changes in worker configuration.
+ *
+ */
 public class WorkerConfigListener implements EntryListener {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	

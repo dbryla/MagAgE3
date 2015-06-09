@@ -6,6 +6,10 @@ import org.slf4j.LoggerFactory;
 import com.hazelcast.partition.PartitionLostEvent;
 import com.hazelcast.partition.PartitionLostListener;
 
+/**
+ * Logs every lost partition.
+ *
+ */
 public class PartitionLostListenerImpl implements PartitionLostListener {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	

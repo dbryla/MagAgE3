@@ -11,6 +11,10 @@ import org.jgrapht.graph.UnmodifiableDirectedGraph;
 
 import com.hazelcast.core.Member;
 
+/**
+ * Manager for settings information for cluster info.
+ *
+ */
 public final class ClusterManager {
     
     private ClusterManager() {}
@@ -26,17 +30,39 @@ public final class ClusterManager {
         return clusterInfo;
     }
 
+    /**
+     * Create logical representation of cluster - object ClusterInfo
+     * 
+     * @param clientName
+     *            name of connected client to cluster
+     */
     static void createCluster(String clientName) {
         ClusterManager.clientName = clientName;
         clusterInfo = new ClusterInfo();
     }
 
+    /**
+     * Adds description to node, if it doesn't exists, create new with given id
+     * 
+     * @param id
+     *            node id
+     * @param descriptor
+     *            for node
+     */
     public static void addNodeDescriptor(String id, NodeDescriptor descriptor) {
     	NodeInfo node = clusterInfo.getNode(id, descriptor.type() == NodeType.SATELLITE);
 		node.descriptor = descriptor;
 		clusterInfo.addNode(node);
     }
 
+    /**
+     * Adds status for node, if it doesn't exists, create new with given id.
+     * 
+     * @param id
+     *            node id
+     * @param status
+     *            of node
+     */
     public static void addNodeStatus(String id, Status status) {
 		NodeInfo node = clusterInfo.getNode(id);
         // ugly way to change worker state to FAILED
@@ -49,6 +75,15 @@ public final class ClusterManager {
 		clusterInfo.addNode(node);
 	}
 
+    /**
+     * Adds state to worker, if worker's node doesn't exists, create new with
+     * given id.
+     * 
+     * @param id
+     *            of node for which worker is assigned
+     * @param state
+     *            of worker
+     */
     public static void addWorkerState(String id, ComputationState state) {
 		NodeInfo node = clusterInfo.getNode(id);
 		node.workerState = state;
