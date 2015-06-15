@@ -9,21 +9,7 @@
 			<name>org.eclipse.jdt.core.javabuilder</name>
 			<arguments>
 			</arguments>
-		</buildCommand>
-		<buildCommand>
-			<name>org.eclipse.ui.externaltools.ExternalToolBuilder</name>
-			<triggers>auto,full,incremental,</triggers>
-			<arguments>
-				<dictionary>
-					<key>LaunchConfigHandle</key>
-					<value>&lt;project&gt;/.externalToolBuilders/GradleBuilder.launch</value>
-				</dictionary>
-				<dictionary>
-					<key>incclean</key>
-					<value>true</value>
-				</dictionary>
-			</arguments>
-		</buildCommand>
+		</buildCommand>		
 		<buildCommand>
 			<name>org.springframework.ide.eclipse.core.springbuilder</name>
 			<arguments>
